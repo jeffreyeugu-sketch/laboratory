@@ -13,7 +13,7 @@ return [
     'locale' => 'es_MX',
     
     // URL base de la aplicación
-    'base_url' => getenv('BASE_URL') ?: 'http://localhost',
+    'base_url' => getenv('BASE_URL') ?: 'http://localhost/laboratorio-clinico/public',
     
     // Sesión
     'session_lifetime' => 7200, // 2 horas en segundos
