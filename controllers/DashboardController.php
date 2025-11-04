@@ -1,85 +1,50 @@
 <?php
 /**
- * DashboardController
- * 
- * Controlador para el panel principal del sistema
+ * Controlador del Dashboard
+ * Pantalla principal del sistema
  */
-
-require_once CORE_PATH . '/Controller.php';
 
 class DashboardController extends Controller {
     
     /**
-     * Muestra el dashboard principal
+     * Mostrar el dashboard principal
      */
     public function index() {
-        // Requerir autenticación
-        $this->requireAuth();
+        // Verificar autenticación
+        if (!Auth::check()) {
+            redirect('login');
+        }
         
-        // Obtener estadísticas del día
+        $usuario = currentUser();
+        
+        // Obtener estadísticas básicas
         $db = Database::getInstance()->getConnection();
-        $sucursalId = $_SESSION['sucursal_id'];
-        $hoy = date('Y-m-d');
         
-        // Órdenes del día
-        $stmt = $db->prepare("
-            SELECT COUNT(*) as total
-            FROM ordenes
-            WHERE sucursal_id = ? AND DATE(fecha_registro) = ?
-        ");
-        $stmt->execute([$sucursalId, $hoy]);
-        $ordenesHoy = $stmt->fetch()['total'] ?? 0;
+        // Total de pacientes
+        $stmt = $db->query("SELECT COUNT(*) as total FROM pacientes WHERE activo = 1");
+        $totalPacientes = $stmt->fetch()['total'];
         
-        // Ingresos del día
-        $stmt = $db->prepare("
-            SELECT COALESCE(SUM(monto), 0) as total
-            FROM pagos
-            WHERE sucursal_id = ? AND DATE(fecha_pago) = ? AND cancelado = 0
-        ");
-        $stmt->execute([$sucursalId, $hoy]);
-        $ingresosHoy = $stmt->fetch()['total'] ?? 0;
+        // Total de órdenes hoy
+        $stmt = $db->query("SELECT COUNT(*) as total FROM ordenes WHERE DATE(fecha_registro) = CURDATE()");
+        $ordenesHoy = $stmt->fetch()['total'];
         
-        // Resultados pendientes
-        $stmt = $db->prepare("
-            SELECT COUNT(DISTINCT oe.orden_id) as total
-            FROM orden_estudios oe
-            JOIN ordenes o ON oe.orden_id = o.id
-            WHERE o.sucursal_id = ? AND oe.estatus IN ('pendiente', 'capturado')
-        ");
-        $stmt->execute([$sucursalId]);
-        $pendientes = $stmt->fetch()['total'] ?? 0;
+        // Órdenes pendientes
+        $stmt = $db->query("SELECT COUNT(*) as total FROM ordenes WHERE estatus IN ('registrada', 'en_proceso')");
+        $ordenesPendientes = $stmt->fetch()['total'];
         
-        // Órdenes por entregar
-        $stmt = $db->prepare("
-            SELECT COUNT(*) as total
-            FROM ordenes
-            WHERE sucursal_id = ? AND estatus = 'liberada'
-        ");
-        $stmt->execute([$sucursalId]);
-        $porEntregar = $stmt->fetch()['total'] ?? 0;
+        // Resultados pendientes de validación
+        $stmt = $db->query("SELECT COUNT(*) as total FROM resultados WHERE estatus = 'capturado'");
+        $resultadosPendientes = $stmt->fetch()['total'];
         
-        // Últimas órdenes
-        $stmt = $db->prepare("
-            SELECT o.*, 
-                   CONCAT(p.nombres, ' ', p.apellido_paterno, ' ', IFNULL(p.apellido_materno, '')) as paciente_nombre,
-                   p.expediente
-            FROM ordenes o
-            JOIN pacientes p ON o.paciente_id = p.id
-            WHERE o.sucursal_id = ?
-            ORDER BY o.fecha_registro DESC
-            LIMIT 10
-        ");
-        $stmt->execute([$sucursalId]);
-        $ultimasOrdenes = $stmt->fetchAll();
-        
-        // Datos para la vista
         $data = [
-            'ordenesHoy' => $ordenesHoy,
-            'ingresosHoy' => $ingresosHoy,
-            'pendientes' => $pendientes,
-            'porEntregar' => $porEntregar,
-            'ultimasOrdenes' => $ultimasOrdenes,
-            'usuario' => Auth::user()
+            'title' => 'Dashboard',
+            'usuario' => $usuario,
+            'stats' => [
+                'totalPacientes' => $totalPacientes,
+                'ordenesHoy' => $ordenesHoy,
+                'ordenesPendientes' => $ordenesPendientes,
+                'resultadosPendientes' => $resultadosPendientes
+            ]
         ];
         
         $this->view('dashboard/index', $data);

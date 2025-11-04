@@ -9,32 +9,15 @@ session_start();
 
 // Definir la ruta base
 define('ROOT_PATH', dirname(__DIR__));
-define('BASE_PATH', ROOT_PATH); // Alias para compatibilidad
+define('BASE_PATH', ROOT_PATH);
 
-// Cargar variables de entorno desde .env
-if (file_exists(ROOT_PATH . '/.env')) {
-    $lines = file(ROOT_PATH . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) continue;
-        if (strpos($line, '=') === false) continue;
-        
-        list($name, $value) = explode('=', $line, 2);
-        $name = trim($name);
-        $value = trim($value);
-        
-        if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
-            putenv(sprintf('%s=%s', $name, $value));
-            $_ENV[$name] = $value;
-            $_SERVER[$name] = $value;
-        }
-    }
-}
+// Cargar configuración PRIMERO (antes de todo)
+$config = require ROOT_PATH . '/config/app.php';
 
 // Cargar constantes
 require_once ROOT_PATH . '/config/constants.php';
 
 // Configurar timezone
-$config = require ROOT_PATH . '/config/app.php';
 date_default_timezone_set($config['timezone']);
 
 // Cargar helpers
@@ -189,11 +172,11 @@ if (isset($routes[$path])) {
         <html><head><title>404</title></head><body style='text-align:center;padding:50px;'>
         <h1>404 - Página no encontrada</h1>
         <p>La ruta <strong>{$path}</strong> no existe</p>
-        <a href='/laboratorio-clinico/public/'>Volver al inicio</a>
+        <a href='" . $config['base_url'] . "'>Volver al inicio</a>
         </body></html>";
     } else {
         // Usuario no logueado - redirigir a login
-        header('Location: /laboratorio-clinico/public/login');
+        header('Location: ' . $config['base_url'] . '/login');
         exit;
     }
 }

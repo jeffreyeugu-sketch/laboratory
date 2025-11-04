@@ -1,370 +1,345 @@
 <?php
 /**
- * Funciones Helper
- * Funciones útiles para usar en toda la aplicación
+ * Funciones Helper del Sistema
+ * Laboratorio Clínico
  */
-
-/**
- * Escapar HTML para prevenir XSS
- * 
- * @param string $text
- * @return string
- */
-function e($text) {
-    return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-}
-
-/**
- * Formatear fecha
- * 
- * @param string $date
- * @param string $format
- * @return string
- */
-function formatDate($date, $format = 'd/m/Y') {
-    if (empty($date) || $date === '0000-00-00' || $date === '0000-00-00 00:00:00') {
-        return '';
-    }
-    
-    $timestamp = strtotime($date);
-    return date($format, $timestamp);
-}
-
-/**
- * Formatear moneda
- * 
- * @param float $amount
- * @param string $currency
- * @return string
- */
-function formatCurrency($amount, $currency = '$') {
-    return $currency . number_format($amount, 2, '.', ',');
-}
-
-/**
- * Calcular edad desde fecha de nacimiento
- * 
- * @param string $birthdate
- * @return int
- */
-function calculateAge($birthdate) {
-    if (empty($birthdate) || $birthdate === '0000-00-00') {
-        return 0;
-    }
-    
-    $birth = new DateTime($birthdate);
-    $today = new DateTime();
-    $age = $today->diff($birth);
-    
-    return $age->y;
-}
-
-/**
- * Obtener edad en formato legible (años, meses, días)
- * 
- * @param string $birthdate
- * @return string
- */
-function getAgeString($birthdate) {
-    if (empty($birthdate) || $birthdate === '0000-00-00') {
-        return '';
-    }
-    
-    $birth = new DateTime($birthdate);
-    $today = new DateTime();
-    $diff = $today->diff($birth);
-    
-    if ($diff->y > 0) {
-        return $diff->y . ' año' . ($diff->y > 1 ? 's' : '');
-    } elseif ($diff->m > 0) {
-        return $diff->m . ' mes' . ($diff->m > 1 ? 'es' : '');
-    } else {
-        return $diff->d . ' día' . ($diff->d > 1 ? 's' : '');
-    }
-}
-
-/**
- * Generar opciones para un select de HTML
- * 
- * @param array $options Array asociativo [value => label]
- * @param mixed $selected Valor seleccionado
- * @return string
- */
-function selectOptions($options, $selected = null) {
-    $html = '';
-    foreach ($options as $value => $label) {
-        $isSelected = ($value == $selected) ? 'selected' : '';
-        $html .= "<option value=\"{$value}\" {$isSelected}>" . e($label) . "</option>\n";
-    }
-    return $html;
-}
-
-/**
- * Obtener mensaje flash y eliminarlo de la sesión
- * 
- * @return array|null
- */
-function getFlash() {
-    if (isset($_SESSION['flash'])) {
-        $flash = $_SESSION['flash'];
-        unset($_SESSION['flash']);
-        return $flash;
-    }
-    return null;
-}
-
-/**
- * Redireccionar a una URL
- * 
- * @param string $url
- */
-function redirect($url) {
-    header("Location: {$url}");
-    exit;
-}
 
 /**
  * Obtener la URL base de la aplicación
  * 
  * @return string
  */
-function baseUrl() {
-    $config = require __DIR__ . '/../config/app.php';
-    return $config['base_url'];
+function base_url() {
+    static $baseUrl = null;
+    
+    if ($baseUrl === null) {
+        // Calcular ROOT_PATH dinámicamente
+        $rootPath = dirname(__DIR__);
+        
+        // Cargar config directamente
+        $configFile = $rootPath . '/config/app.php';
+        if (file_exists($configFile)) {
+            $config = require $configFile;
+            $baseUrl = $config['base_url'];
+        } else {
+            // Fallback si no existe el archivo
+            $baseUrl = 'http://localhost/laboratorio-clinico/public';
+        }
+        
+        // Remover slash final si existe
+        $baseUrl = rtrim($baseUrl, '/');
+    }
+    
+    return $baseUrl;
 }
 
 /**
  * Generar URL completa
  * 
- * @param string $path
+ * @param string $path Ruta (con o sin / al inicio)
  * @return string
  */
 function url($path = '') {
-    return baseUrl() . $path;
+    $path = ltrim($path, '/');
+    return base_url() . '/' . $path;
 }
 
 /**
- * Generar URL de asset
+ * Redirigir a una URL
  * 
- * @param string $path
+ * @param string $path Ruta a redirigir
+ */
+function redirect($path) {
+    header('Location: ' . url($path));
+    exit;
+}
+
+/**
+ * Generar URL de asset (CSS, JS, imágenes)
+ * 
+ * @param string $path Ruta del asset
  * @return string
  */
 function asset($path) {
-    return baseUrl() . '/assets/' . ltrim($path, '/');
+    $path = ltrim($path, '/');
+    return base_url() . '/assets/' . $path;
 }
 
 /**
- * Debuggear variable y detener ejecución
+ * Formatear fecha a formato legible
  * 
- * @param mixed $var
+ * @param string $fecha Fecha en formato MySQL
+ * @param string $formato Formato de salida
+ * @return string
  */
-function dd($var) {
+function formatearFecha($fecha, $formato = 'd/m/Y') {
+    if (empty($fecha) || $fecha == '0000-00-00' || $fecha == '0000-00-00 00:00:00') {
+        return '';
+    }
+    
+    $timestamp = strtotime($fecha);
+    return date($formato, $timestamp);
+}
+
+/**
+ * Formatear fecha y hora
+ * 
+ * @param string $fecha Fecha en formato MySQL
+ * @return string
+ */
+function formatearFechaHora($fecha) {
+    return formatearFecha($fecha, 'd/m/Y H:i');
+}
+
+/**
+ * Formatear cantidad a formato de moneda
+ * 
+ * @param float $cantidad
+ * @param string $simbolo
+ * @return string
+ */
+function formatearMoneda($cantidad, $simbolo = '$') {
+    return $simbolo . number_format($cantidad, 2, '.', ',');
+}
+
+/**
+ * Calcular edad a partir de fecha de nacimiento
+ * 
+ * @param string $fechaNacimiento Fecha en formato MySQL
+ * @return int Edad en años
+ */
+function calcularEdad($fechaNacimiento) {
+    if (empty($fechaNacimiento) || $fechaNacimiento == '0000-00-00') {
+        return 0;
+    }
+    
+    $nacimiento = new DateTime($fechaNacimiento);
+    $hoy = new DateTime();
+    $edad = $hoy->diff($nacimiento);
+    
+    return $edad->y;
+}
+
+/**
+ * Generar un folio único
+ * 
+ * @param string $prefijo Prefijo del folio
+ * @param int $numero Número secuencial
+ * @param int $longitud Longitud del número
+ * @return string
+ */
+function generarFolio($prefijo, $numero, $longitud = 6) {
+    $numeroFormateado = str_pad($numero, $longitud, '0', STR_PAD_LEFT);
+    return $prefijo . $numeroFormateado;
+}
+
+/**
+ * Sanitizar string para prevenir XSS
+ * 
+ * @param string $string
+ * @return string
+ */
+function sanitizar($string) {
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
+
+/**
+ * Escapar output HTML
+ * 
+ * @param string $string
+ * @return string
+ */
+function e($string) {
+    return sanitizar($string);
+}
+
+/**
+ * Obtener valor de sesión
+ * 
+ * @param string $key Clave de la sesión
+ * @param mixed $default Valor por defecto
+ * @return mixed
+ */
+function session($key = null, $default = null) {
+    if ($key === null) {
+        return $_SESSION;
+    }
+    
+    return $_SESSION[$key] ?? $default;
+}
+
+/**
+ * Establecer valor en sesión
+ * 
+ * @param string $key
+ * @param mixed $value
+ */
+function setSession($key, $value) {
+    $_SESSION[$key] = $value;
+}
+
+/**
+ * Verificar si existe flash message
+ * 
+ * @param string $key
+ * @return bool
+ */
+function hasFlash($key) {
+    return isset($_SESSION['flash'][$key]);
+}
+
+/**
+ * Obtener y eliminar flash message
+ * 
+ * @param string $key
+ * @return mixed
+ */
+function getFlash($key) {
+    if (isset($_SESSION['flash'][$key])) {
+        $value = $_SESSION['flash'][$key];
+        unset($_SESSION['flash'][$key]);
+        return $value;
+    }
+    return null;
+}
+
+/**
+ * Establecer flash message
+ * 
+ * @param string $key
+ * @param mixed $value
+ */
+function setFlash($key, $value) {
+    $_SESSION['flash'][$key] = $value;
+}
+
+/**
+ * Logging simple
+ * 
+ * @param string $message Mensaje a registrar
+ * @param string $level Nivel (info, error, debug)
+ */
+function logMessage($message, $level = 'info') {
+    $rootPath = dirname(__DIR__);
+    $logFile = $rootPath . '/storage/logs/app-' . date('Y-m-d') . '.log';
+    $timestamp = date('Y-m-d H:i:s');
+    $logEntry = "[{$timestamp}] {$level}: {$message}" . PHP_EOL;
+    
+    @file_put_contents($logFile, $logEntry, FILE_APPEND);
+}
+
+/**
+ * Dump and die (para debugging)
+ * 
+ * @param mixed $data
+ */
+function dd($data) {
     echo '<pre>';
-    var_dump($var);
+    var_dump($data);
     echo '</pre>';
     die();
 }
 
 /**
- * Validar formato de email
+ * Validar email
  * 
  * @param string $email
  * @return bool
  */
-function isValidEmail($email) {
+function validarEmail($email) {
     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 }
 
 /**
- * Sanitizar string
+ * Validar CURP mexicano
  * 
- * @param string $string
- * @return string
+ * @param string $curp
+ * @return bool
  */
-function sanitize($string) {
-    return filter_var($string, FILTER_SANITIZE_STRING);
+function validarCURP($curp) {
+    $pattern = '/^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9A-Z][0-9]$/';
+    return preg_match($pattern, $curp) === 1;
 }
 
 /**
- * Generar token aleatorio
+ * Validar RFC mexicano
  * 
- * @param int $length
- * @return string
+ * @param string $rfc
+ * @return bool
  */
-function generateToken($length = 32) {
-    return bin2hex(random_bytes($length));
+function validarRFC($rfc) {
+    $pattern = '/^[A-ZÑ&]{3,4}[0-9]{6}[A-Z0-9]{3}$/';
+    return preg_match($pattern, $rfc) === 1;
 }
 
 /**
- * Verificar si es una petición AJAX
+ * Obtener el usuario actual
+ * 
+ * @return array|null
+ */
+function currentUser() {
+    return session('usuario');
+}
+
+/**
+ * Verificar si el usuario está autenticado
  * 
  * @return bool
  */
-function isAjax() {
-    return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
-           strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+function isAuthenticated() {
+    return Auth::check();
 }
 
 /**
- * Obtener el valor de un array de forma segura
+ * Verificar si el usuario tiene un permiso
  * 
- * @param array $array
- * @param string $key
- * @param mixed $default
- * @return mixed
+ * @param string $permiso
+ * @return bool
  */
-function arrayGet($array, $key, $default = null) {
-    return isset($array[$key]) ? $array[$key] : $default;
+function can($permiso) {
+    return Auth::can($permiso);
 }
 
 /**
- * Convertir array a JSON
+ * Obtener el nombre completo del usuario actual
  * 
- * @param mixed $data
  * @return string
  */
-function toJson($data) {
-    return json_encode($data, JSON_UNESCAPED_UNICODE);
+function currentUserName() {
+    $usuario = currentUser();
+    if (!$usuario) return 'Invitado';
+    
+    return trim($usuario['nombres'] . ' ' . $usuario['apellido_paterno'] . ' ' . $usuario['apellido_materno']);
 }
 
 /**
- * Generar folio de orden
+ * Generar token CSRF
  * 
- * @param int $sucursalId
  * @return string
  */
-function generarFolioOrden($sucursalId) {
-    $fecha = date('Ymd');
-    $sucursal = str_pad($sucursalId, 2, '0', STR_PAD_LEFT);
-    
-    $db = Database::getInstance()->getConnection();
-    
-    // Obtener el último consecutivo del día
-    $stmt = $db->prepare("SELECT ultimo_consecutivo FROM folios_control 
-                         WHERE sucursal_id = ? AND fecha = CURDATE()");
-    $stmt->execute([$sucursalId]);
-    $result = $stmt->fetch();
-    
-    if ($result) {
-        // Incrementar consecutivo
-        $consecutivo = $result['ultimo_consecutivo'] + 1;
-        $stmt = $db->prepare("UPDATE folios_control SET ultimo_consecutivo = ? 
-                             WHERE sucursal_id = ? AND fecha = CURDATE()");
-        $stmt->execute([$consecutivo, $sucursalId]);
-    } else {
-        // Primer folio del día
-        $consecutivo = 1;
-        $stmt = $db->prepare("INSERT INTO folios_control (sucursal_id, fecha, ultimo_consecutivo) 
-                             VALUES (?, CURDATE(), ?)");
-        $stmt->execute([$sucursalId, $consecutivo]);
+function csrf_token() {
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
-    
-    $consecutivoStr = str_pad($consecutivo, 4, '0', STR_PAD_LEFT);
-    return $fecha . $sucursal . $consecutivoStr;
+    return $_SESSION['csrf_token'];
 }
 
 /**
- * Formatear folio para visualización
+ * Verificar token CSRF
  * 
- * @param string $folio
+ * @param string $token
+ * @return bool
+ */
+function csrf_verify($token) {
+    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+}
+
+/**
+ * Campo hidden de CSRF para formularios
+ * 
  * @return string
  */
-function formatFolio($folio) {
-    // Formato: YYYYMMDDSSNNNN -> YYYY-MM-DD-SS-NNNN
-    if (strlen($folio) === 14) {
-        return substr($folio, 0, 4) . '-' . 
-               substr($folio, 4, 2) . '-' . 
-               substr($folio, 6, 2) . '-' . 
-               substr($folio, 8, 2) . '-' . 
-               substr($folio, 10, 4);
-    }
-    return $folio;
-}
-
-/**
- * Obtener nombre completo del paciente
- * 
- * @param array $paciente
- * @return string
- */
-function getNombreCompleto($paciente) {
-    $nombre = $paciente['nombres'] . ' ' . $paciente['apellido_paterno'];
-    if (!empty($paciente['apellido_materno'])) {
-        $nombre .= ' ' . $paciente['apellido_materno'];
-    }
-    return $nombre;
-}
-
-/**
- * Obtener badge de estatus de orden
- * 
- * @param string $estatus
- * @return string
- */
-function getEstatusBadge($estatus) {
-    $badges = [
-        'registrada' => '<span class="badge bg-secondary">Registrada</span>',
-        'en_proceso' => '<span class="badge bg-info">En Proceso</span>',
-        'parcial' => '<span class="badge bg-warning">Parcial</span>',
-        'validada' => '<span class="badge bg-primary">Validada</span>',
-        'liberada' => '<span class="badge bg-success">Liberada</span>',
-        'entregada' => '<span class="badge bg-dark">Entregada</span>',
-        'cancelada' => '<span class="badge bg-danger">Cancelada</span>',
-    ];
-    
-    return $badges[$estatus] ?? '<span class="badge bg-secondary">' . e($estatus) . '</span>';
-}
-
-/**
- * Obtener badge de estatus de pago
- * 
- * @param string $estatusPago
- * @return string
- */
-function getEstatusPagoBadge($estatusPago) {
-    $badges = [
-        'pendiente' => '<span class="badge bg-danger">Pendiente</span>',
-        'parcial' => '<span class="badge bg-warning">Parcial</span>',
-        'pagado' => '<span class="badge bg-success">Pagado</span>',
-        'credito' => '<span class="badge bg-info">Crédito</span>',
-    ];
-    
-    return $badges[$estatusPago] ?? '<span class="badge bg-secondary">' . e($estatusPago) . '</span>';
-}
-
-/**
- * Log de error
- * 
- * @param string $message
- * @param array $context
- */
-function logError($message, $context = []) {
-    $config = require __DIR__ . '/../config/app.php';
-    $logFile = $config['log_path'] . 'error-' . date('Y-m-d') . '.log';
-    
-    $timestamp = date('Y-m-d H:i:s');
-    $contextStr = !empty($context) ? ' ' . json_encode($context) : '';
-    $logMessage = "[{$timestamp}] ERROR: {$message}{$contextStr}\n";
-    
-    file_put_contents($logFile, $logMessage, FILE_APPEND);
-}
-
-/**
- * Log de info
- * 
- * @param string $message
- * @param array $context
- */
-function logInfo($message, $context = []) {
-    $config = require __DIR__ . '/../config/app.php';
-    
-    if ($config['log_level'] === 'debug' || $config['log_level'] === 'info') {
-        $logFile = $config['log_path'] . 'info-' . date('Y-m-d') . '.log';
-        
-        $timestamp = date('Y-m-d H:i:s');
-        $contextStr = !empty($context) ? ' ' . json_encode($context) : '';
-        $logMessage = "[{$timestamp}] INFO: {$message}{$contextStr}\n";
-        
-        file_put_contents($logFile, $logMessage, FILE_APPEND);
-    }
+function csrf_field() {
+    $token = csrf_token();
+    return '<input type="hidden" name="csrf_token" value="' . $token . '">';
 }

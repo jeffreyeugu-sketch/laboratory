@@ -8,12 +8,12 @@ return [
     // Información de la aplicación
     'app_name' => 'Laboratorio Clínico',
     'app_version' => '1.0.0',
-    'app_env' => getenv('APP_ENV') ?: 'production', // development, production
-    'timezone' => 'America/Mexico_City', // ← CORREGIDO: era 'app_timezone'
+    'app_env' => 'development', // development, production
+    'timezone' => 'America/Mexico_City',
     'locale' => 'es_MX',
     
-    // URL base de la aplicación
-    'base_url' => getenv('BASE_URL') ?: 'http://localhost/laboratorio-clinico/public',
+    // URL base de la aplicación - HARDCODED para que funcione siempre
+    'base_url' => 'http://localhost/laboratorio-clinico/public',
     
     // Sesión
     'session_lifetime' => 7200, // 2 horas en segundos
@@ -32,15 +32,15 @@ return [
     // Uploads
     'upload_max_size' => 5242880, // 5MB en bytes
     'upload_allowed_types' => ['jpg', 'jpeg', 'png', 'pdf'],
-    'upload_path' => __DIR__ . '/../public/uploads/',
+    'upload_path' => dirname(__DIR__) . '/public/uploads/',
     
     // PDFs
-    'pdf_logo_path' => __DIR__ . '/../public/assets/img/logo.png',
-    'pdf_temp_path' => __DIR__ . '/../storage/temp/',
+    'pdf_logo_path' => dirname(__DIR__) . '/public/assets/img/logo.png',
+    'pdf_temp_path' => dirname(__DIR__) . '/storage/temp/',
     
     // Logs
-    'log_path' => __DIR__ . '/../storage/logs/',
-    'log_level' => getenv('LOG_LEVEL') ?: 'error', // debug, info, warning, error
+    'log_path' => dirname(__DIR__) . '/storage/logs/',
+    'log_level' => 'debug', // debug, info, warning, error
     
     // Email (para futuro)
     'mail_from_address' => 'noreply@laboratorio.com',

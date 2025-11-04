@@ -4,9 +4,11 @@
 # Habilitar el motor de reescritura
 RewriteEngine On
 
-# Redirigir todo a index.php excepto archivos y directorios existentes
+# Si el archivo o directorio existe, servirlo directamente
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirigir todo lo demás a index.php
 RewriteRule ^(.*)$ index.php [QSA,L]
 
 # Prevenir acceso a directorios
@@ -14,8 +16,7 @@ Options -Indexes
 
 # Configuración de seguridad
 <FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql)$">
-    Order Allow,Deny
-    Deny from all
+    Require all denied
 </FilesMatch>
 
 # Configuración de charset
