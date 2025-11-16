@@ -47,6 +47,10 @@ $scriptName = dirname($_SERVER['SCRIPT_NAME']);
 $path = str_replace($scriptName, '', $requestUri);
 $path = '/' . trim(parse_url($path, PHP_URL_PATH), '/');
 
+// Separar ruta de query string
+$pathParts = explode('?', $path);
+$path = $pathParts[0];
+
 // Definir rutas de la aplicación
 $routes = [
     // Autenticación
@@ -61,13 +65,15 @@ $routes = [
     
     // Pacientes
     '/pacientes' => ['controller' => 'PacienteController', 'method' => 'index'],
+    '/pacientes/listar' => ['controller' => 'PacienteController', 'method' => 'listar'],        // ← NUEVA (AJAX)
     '/pacientes/crear' => ['controller' => 'PacienteController', 'method' => 'crear'],
     '/pacientes/guardar' => ['controller' => 'PacienteController', 'method' => 'guardar'],
-    '/pacientes/editar' => ['controller' => 'PacienteController', 'method' => 'editar'],
-    '/pacientes/actualizar' => ['controller' => 'PacienteController', 'method' => 'actualizar'],
-    '/pacientes/ver' => ['controller' => 'PacienteController', 'method' => 'ver'],
-    '/pacientes/buscar' => ['controller' => 'PacienteController', 'method' => 'buscar'],
-    '/pacientes/eliminar' => ['controller' => 'PacienteController', 'method' => 'eliminar'],
+    '/pacientes/editar/{id}' => ['controller' => 'PacienteController', 'method' => 'editar'],   // ← Necesita parámetro
+    '/pacientes/actualizar/{id}' => ['controller' => 'PacienteController', 'method' => 'actualizar'], // ← Necesita parámetro
+    '/pacientes/ver/{id}' => ['controller' => 'PacienteController', 'method' => 'ver'],         // ← Necesita parámetro
+    '/pacientes/buscar' => ['controller' => 'PacienteController', 'method' => 'buscar'],        // ← NUEVA (AJAX)
+    '/pacientes/obtener/{id}' => ['controller' => 'PacienteController', 'method' => 'obtener'], // ← NUEVA (AJAX)
+    '/pacientes/eliminar/{id}' => ['controller' => 'PacienteController', 'method' => 'eliminar'], // ← Necesita parámetro
     
     // Órdenes
     '/ordenes' => ['controller' => 'OrdenController', 'method' => 'index'],
@@ -132,13 +138,8 @@ $routes = [
     '/reportes/estudios' => ['controller' => 'ReporteController', 'method' => 'estudios'],
 ];
 
-// Buscar y ejecutar la ruta
-if (isset($routes[$path])) {
-    $route = $routes[$path];
-    
-    $controllerName = $route['controller'];
-    $methodName = $route['method'];
-    
+// Función para ejecutar ruta (AGREGAR ESTA NUEVA FUNCIÓN)
+function executeRoute($controllerName, $methodName, $params = []) {
     $controllerFile = ROOT_PATH . '/controllers/' . $controllerName . '.php';
     
     if (file_exists($controllerFile)) {
@@ -148,35 +149,57 @@ if (isset($routes[$path])) {
             $controller = new $controllerName();
             
             if (method_exists($controller, $methodName)) {
-                $controller->$methodName();
-            } else {
-                http_response_code(404);
-                echo "Método {$methodName} no encontrado";
+                // Llamar al método con parámetros
+                if (!empty($params)) {
+                    call_user_func_array([$controller, $methodName], $params);
+                } else {
+                    $controller->$methodName();
+                }
+                return true;
             }
-        } else {
-            http_response_code(404);
-            echo "Controlador {$controllerName} no encontrado";
         }
-    } else {
-        http_response_code(404);
-        die("Archivo del controlador no encontrado: {$controllerName}<br>Buscado en: {$controllerFile}");
     }
-    
-} else {
-    // Ruta no encontrada - 404
+    return false;
+}
+
+// Buscar y ejecutar la ruta (REEMPLAZAR ESTA SECCIÓN)
+$routeFound = false;
+
+// 1. Intentar rutas estáticas primero
+if (isset($routes[$path])) {
+    $route = $routes[$path];
+    $routeFound = executeRoute($route['controller'], $route['method']);
+}
+
+// 2. Si no se encuentra, intentar rutas dinámicas
+if (!$routeFound) {
+    foreach ($dynamicRoutes as $pattern => $route) {
+        if (strpos($path, $pattern) === 0) {
+            // Extraer el ID o parámetro
+            $param = str_replace($pattern, '', $path);
+            $param = trim($param, '/');
+            
+            if (!empty($param)) {
+                $routeFound = executeRoute($route['controller'], $route['method'], [$param]);
+                break;
+            }
+        }
+    }
+}
+
+// 3. Ruta no encontrada - 404
+if (!$routeFound) {
     http_response_code(404);
     
     if (Auth::check()) {
-        // Usuario logueado - mostrar página 404
         echo "<!DOCTYPE html>
         <html><head><title>404</title></head><body style='text-align:center;padding:50px;'>
         <h1>404 - Página no encontrada</h1>
         <p>La ruta <strong>{$path}</strong> no existe</p>
-        <a href='" . $config['base_url'] . "'>Volver al inicio</a>
+        <a href='" . base_url() . "'>Volver al inicio</a>
         </body></html>";
     } else {
-        // Usuario no logueado - redirigir a login
-        header('Location: ' . $config['base_url'] . '/login');
+        header('Location: ' . base_url() . '/login');
         exit;
     }
 }

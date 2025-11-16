@@ -2,8 +2,6 @@
 /**
  * Modelo Paciente
  * Maneja todas las operaciones relacionadas con pacientes
- * 
- * NOTA: Ajustado al esquema REAL de la base de datos
  */
 
 class Paciente extends Model {
@@ -33,17 +31,24 @@ class Paciente extends Model {
                     apellido_materno,
                     fecha_nacimiento,
                     sexo,
+                    curp,
                     telefono,
-                    celular,
                     email,
-                    direccion,
-                    codigo_postal,
+                    calle,
+                    numero_exterior,
+                    numero_interior,
+                    colonia,
                     ciudad,
                     estado,
+                    codigo_postal,
                     ocupacion,
-                    sucursal_registro_id,
+                    estado_civil,
+                    nombre_contacto_emergencia,
+                    telefono_contacto_emergencia,
+                    parentesco_contacto_emergencia,
+                    observaciones,
+                    usuario_registro_id,
                     activo,
-                    notas,
                     fecha_registro
                 ) VALUES (
                     :expediente,
@@ -52,17 +57,24 @@ class Paciente extends Model {
                     :apellido_materno,
                     :fecha_nacimiento,
                     :sexo,
+                    :curp,
                     :telefono,
-                    :celular,
                     :email,
-                    :direccion,
-                    :codigo_postal,
+                    :calle,
+                    :numero_exterior,
+                    :numero_interior,
+                    :colonia,
                     :ciudad,
                     :estado,
+                    :codigo_postal,
                     :ocupacion,
-                    :sucursal_registro_id,
+                    :estado_civil,
+                    :nombre_contacto_emergencia,
+                    :telefono_contacto_emergencia,
+                    :parentesco_contacto_emergencia,
+                    :observaciones,
+                    :usuario_registro_id,
                     1,
-                    :notas,
                     NOW()
                 )
             ");
@@ -74,16 +86,23 @@ class Paciente extends Model {
                 ':apellido_materno' => $datos['apellido_materno'] ?? null,
                 ':fecha_nacimiento' => $datos['fecha_nacimiento'],
                 ':sexo' => $datos['sexo'],
+                ':curp' => $datos['curp'] ?? null,
                 ':telefono' => $datos['telefono'] ?? null,
-                ':celular' => $datos['celular'] ?? null,
                 ':email' => $datos['email'] ?? null,
-                ':direccion' => $this->construirDireccion($datos),
-                ':codigo_postal' => $datos['codigo_postal'] ?? null,
+                ':calle' => $datos['calle'] ?? null,
+                ':numero_exterior' => $datos['numero_exterior'] ?? null,
+                ':numero_interior' => $datos['numero_interior'] ?? null,
+                ':colonia' => $datos['colonia'] ?? null,
                 ':ciudad' => $datos['ciudad'] ?? null,
                 ':estado' => $datos['estado'] ?? null,
+                ':codigo_postal' => $datos['codigo_postal'] ?? null,
                 ':ocupacion' => $datos['ocupacion'] ?? null,
-                ':sucursal_registro_id' => $datos['usuario_registro_id'] ?? 1,
-                ':notas' => $this->construirNotas($datos)
+                ':estado_civil' => $datos['estado_civil'] ?? null,
+                ':nombre_contacto_emergencia' => $datos['nombre_contacto_emergencia'] ?? null,
+                ':telefono_contacto_emergencia' => $datos['telefono_contacto_emergencia'] ?? null,
+                ':parentesco_contacto_emergencia' => $datos['parentesco_contacto_emergencia'] ?? null,
+                ':observaciones' => $datos['observaciones'] ?? null,
+                ':usuario_registro_id' => $datos['usuario_registro_id']
             ]);
             
             return $db->lastInsertId();
@@ -140,15 +159,22 @@ class Paciente extends Model {
                     apellido_materno = :apellido_materno,
                     fecha_nacimiento = :fecha_nacimiento,
                     sexo = :sexo,
+                    curp = :curp,
                     telefono = :telefono,
-                    celular = :celular,
                     email = :email,
-                    direccion = :direccion,
-                    codigo_postal = :codigo_postal,
+                    calle = :calle,
+                    numero_exterior = :numero_exterior,
+                    numero_interior = :numero_interior,
+                    colonia = :colonia,
                     ciudad = :ciudad,
                     estado = :estado,
+                    codigo_postal = :codigo_postal,
                     ocupacion = :ocupacion,
-                    notas = :notas
+                    estado_civil = :estado_civil,
+                    nombre_contacto_emergencia = :nombre_contacto_emergencia,
+                    telefono_contacto_emergencia = :telefono_contacto_emergencia,
+                    parentesco_contacto_emergencia = :parentesco_contacto_emergencia,
+                    observaciones = :observaciones
                 WHERE id = :id
             ");
             
@@ -159,15 +185,22 @@ class Paciente extends Model {
                 ':apellido_materno' => $datos['apellido_materno'] ?? null,
                 ':fecha_nacimiento' => $datos['fecha_nacimiento'],
                 ':sexo' => $datos['sexo'],
+                ':curp' => $datos['curp'] ?? null,
                 ':telefono' => $datos['telefono'] ?? null,
-                ':celular' => $datos['celular'] ?? null,
                 ':email' => $datos['email'] ?? null,
-                ':direccion' => $this->construirDireccion($datos),
-                ':codigo_postal' => $datos['codigo_postal'] ?? null,
+                ':calle' => $datos['calle'] ?? null,
+                ':numero_exterior' => $datos['numero_exterior'] ?? null,
+                ':numero_interior' => $datos['numero_interior'] ?? null,
+                ':colonia' => $datos['colonia'] ?? null,
                 ':ciudad' => $datos['ciudad'] ?? null,
                 ':estado' => $datos['estado'] ?? null,
+                ':codigo_postal' => $datos['codigo_postal'] ?? null,
                 ':ocupacion' => $datos['ocupacion'] ?? null,
-                ':notas' => $this->construirNotas($datos)
+                ':estado_civil' => $datos['estado_civil'] ?? null,
+                ':nombre_contacto_emergencia' => $datos['nombre_contacto_emergencia'] ?? null,
+                ':telefono_contacto_emergencia' => $datos['telefono_contacto_emergencia'] ?? null,
+                ':parentesco_contacto_emergencia' => $datos['parentesco_contacto_emergencia'] ?? null,
+                ':observaciones' => $datos['observaciones'] ?? null
             ]);
             
         } catch (PDOException $e) {
@@ -224,7 +257,7 @@ class Paciente extends Model {
                     OR CONCAT(p.nombres, ' ', p.apellido_paterno) LIKE :termino
                     OR CONCAT(p.nombres, ' ', p.apellido_paterno, ' ', p.apellido_materno) LIKE :termino
                     OR p.telefono LIKE :termino
-                    OR p.celular LIKE :termino
+                    OR p.curp LIKE :termino
                 )
                 ORDER BY p.apellido_paterno, p.apellido_materno, p.nombres
                 LIMIT 20
@@ -398,71 +431,5 @@ class Paciente extends Model {
             logError('Error al contar pacientes: ' . $e->getMessage());
             return 0;
         }
-    }
-    
-    /**
-     * Construir dirección completa desde campos separados
-     * 
-     * @param array $datos
-     * @return string|null
-     */
-    private function construirDireccion($datos) {
-        $partes = [];
-        
-        if (!empty($datos['calle'])) {
-            $calle = $datos['calle'];
-            if (!empty($datos['numero_exterior'])) {
-                $calle .= ' #' . $datos['numero_exterior'];
-            }
-            if (!empty($datos['numero_interior'])) {
-                $calle .= ' Int. ' . $datos['numero_interior'];
-            }
-            $partes[] = $calle;
-        }
-        
-        if (!empty($datos['colonia'])) {
-            $partes[] = 'Col. ' . $datos['colonia'];
-        }
-        
-        return !empty($partes) ? implode(', ', $partes) : null;
-    }
-    
-    /**
-     * Construir notas desde campos adicionales
-     * 
-     * @param array $datos
-     * @return string|null
-     */
-    private function construirNotas($datos) {
-        $notas = [];
-        
-        // CURP
-        if (!empty($datos['curp'])) {
-            $notas[] = 'CURP: ' . $datos['curp'];
-        }
-        
-        // Estado civil
-        if (!empty($datos['estado_civil'])) {
-            $notas[] = 'Estado Civil: ' . ucfirst(str_replace('_', ' ', $datos['estado_civil']));
-        }
-        
-        // Contacto de emergencia
-        if (!empty($datos['nombre_contacto_emergencia'])) {
-            $contacto = 'Contacto de Emergencia: ' . $datos['nombre_contacto_emergencia'];
-            if (!empty($datos['telefono_contacto_emergencia'])) {
-                $contacto .= ' - ' . $datos['telefono_contacto_emergencia'];
-            }
-            if (!empty($datos['parentesco_contacto_emergencia'])) {
-                $contacto .= ' (' . $datos['parentesco_contacto_emergencia'] . ')';
-            }
-            $notas[] = $contacto;
-        }
-        
-        // Observaciones adicionales
-        if (!empty($datos['observaciones'])) {
-            $notas[] = 'Observaciones: ' . $datos['observaciones'];
-        }
-        
-        return !empty($notas) ? implode("\n", $notas) : null;
     }
 }

@@ -21,7 +21,7 @@ class Auth {
         // Buscar usuario
         $stmt = $db->prepare("SELECT * FROM usuarios WHERE username = ? AND activo = 1");
         $stmt->execute([$username]);
-        $user = $stmt->fetch();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if (!$user) {
             return false;
@@ -46,10 +46,23 @@ class Auth {
                              WHERE id = ?");
         $stmt->execute([$user['id']]);
         
-        // Guardar en sesión
+        // CORRECCIÓN: Guardar TODO en $_SESSION['user'] para mantener consistencia
+        $_SESSION['user'] = [
+            'id' => $user['id'],
+            'username' => $user['username'],
+            'nombres' => $user['nombres'],
+            'apellido_paterno' => $user['apellido_paterno'],
+            'apellido_materno' => $user['apellido_materno'],
+            'nombre_completo' => $user['nombres'] . ' ' . $user['apellido_paterno'],
+            'email' => $user['email'],
+            'sucursal_id' => $user['sucursal_id'],
+            'area_id' => $user['area_id'],
+            'requiere_cambio_password' => $user['requiere_cambio_password']
+        ];
+        
+        // También mantener por compatibilidad
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
-        $_SESSION['user_nombres'] = $user['nombres'] . ' ' . $user['apellido_paterno'];
         $_SESSION['sucursal_id'] = $user['sucursal_id'];
         $_SESSION['area_id'] = $user['area_id'];
         
@@ -93,6 +106,12 @@ class Auth {
             return null;
         }
         
+        // Si ya está en sesión, retornarlo
+        if (isset($_SESSION['user'])) {
+            return $_SESSION['user'];
+        }
+        
+        // Si no, cargarlo de la BD
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT u.*, s.nombre as sucursal_nombre, a.nombre as area_nombre
                              FROM usuarios u
@@ -101,7 +120,7 @@ class Auth {
                              WHERE u.id = ?");
         $stmt->execute([$_SESSION['user_id']]);
         
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
     /**
@@ -132,7 +151,7 @@ class Auth {
         $stmt->execute([$userId]);
         
         $permisos = [];
-        while ($row = $stmt->fetch()) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $permisos[] = $row['clave'];
         }
         
@@ -145,7 +164,7 @@ class Auth {
         $stmt = $db->prepare($sql);
         $stmt->execute([$userId]);
         
-        while ($row = $stmt->fetch()) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $permisos[] = $row['clave'];
         }
         
@@ -159,7 +178,7 @@ class Auth {
         $stmt->execute([$userId]);
         
         $permisosRevocados = [];
-        while ($row = $stmt->fetch()) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $permisosRevocados[] = $row['clave'];
         }
         
@@ -170,6 +189,7 @@ class Auth {
         $permisos = array_unique($permisos);
         
         $_SESSION['permisos'] = $permisos;
+        $_SESSION['user']['permisos'] = $permisos;
     }
     
     /**
@@ -209,7 +229,7 @@ class Auth {
         
         $stmt = $db->prepare($sql);
         $stmt->execute([$_SESSION['user_id']]);
-        $result = $stmt->fetch();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
         return $result['total'] > 0;
     }
@@ -222,7 +242,7 @@ class Auth {
     private static function incrementLoginAttempts($userId) {
         $db = Database::getInstance()->getConnection();
         $config = require __DIR__ . '/../config/app.php';
-        $maxAttempts = $config['max_login_attempts'];
+        $maxAttempts = $config['max_login_attempts'] ?? 5;
         
         $stmt = $db->prepare("UPDATE usuarios SET 
                              intentos_fallidos_login = intentos_fallidos_login + 1,
@@ -244,15 +264,16 @@ class Auth {
      * @param int $entidadId
      * @param array $datosAnteriores
      * @param array $datosNuevos
+     * @param string $descripcion
      */
-    public static function logAudit($userId, $accion, $modulo, $entidadTipo = null, $entidadId = null, $datosAnteriores = null, $datosNuevos = null) {
+    public static function logAudit($userId, $accion, $modulo, $entidadTipo = null, $entidadId = null, $datosAnteriores = null, $datosNuevos = null, $descripcion = null) {
         try {
             $db = Database::getInstance()->getConnection();
             
             $stmt = $db->prepare("INSERT INTO auditoria 
                                  (usuario_id, accion, modulo, entidad_tipo, entidad_id, 
-                                  datos_anteriores, datos_nuevos, ip_address, user_agent, sucursal_id)
-                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                                  datos_anteriores, datos_nuevos, descripcion, ip_address, user_agent, sucursal_id)
+                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
             $stmt->execute([
                 $userId,
@@ -262,6 +283,7 @@ class Auth {
                 $entidadId,
                 $datosAnteriores ? json_encode($datosAnteriores) : null,
                 $datosNuevos ? json_encode($datosNuevos) : null,
+                $descripcion,
                 $_SERVER['REMOTE_ADDR'] ?? null,
                 $_SERVER['HTTP_USER_AGENT'] ?? null,
                 $_SESSION['sucursal_id'] ?? null

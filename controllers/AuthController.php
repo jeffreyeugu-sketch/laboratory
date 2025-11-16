@@ -1,193 +1,153 @@
 <?php
 /**
- * Controlador de Autenticación
- * Maneja login, logout y recuperación de contraseñas
+ * AuthController
+ * 
+ * Controlador para manejo de autenticación de usuarios
  */
+
+require_once CORE_PATH . '/Controller.php';
 
 class AuthController extends Controller {
     
     /**
-     * Mostrar formulario de login
+     * Muestra el formulario de login
      */
     public function login() {
         // Si ya está autenticado, redirigir al dashboard
         if (Auth::check()) {
-            redirect('dashboard');
+            $this->redirect(url('/dashboard'));
         }
         
         // Si es POST, procesar el login
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->procesarLogin();
-            return;
-        }
-        
-        // Mostrar vista de login
-        $data = [
-            'title' => 'Iniciar Sesión',
-            'error' => getFlash('error'),
-            'success' => getFlash('success')
-        ];
-        
-        // Renderizar login sin layout
-        require ROOT_PATH . '/views/auth/login.php';
-    }
-    
-    /**
-     * Procesar el login
-     */
-    private function procesarLogin() {
-        $username = $_POST['username'] ?? '';
-        $password = $_POST['password'] ?? '';
-        $remember = isset($_POST['remember']);
-        
-        // Validar campos vacíos
-        if (empty($username) || empty($password)) {
-            setFlash('error', 'Por favor complete todos los campos');
-            redirect('login');
-        }
-        
-        // Intentar autenticar
-        if (Auth::attempt($username, $password, $remember)) {
-            // Login exitoso
-            logMessage("Login exitoso: {$username}");
-            redirect('dashboard');
+        if ($this->isPost()) {
+            $username = $this->input('username');
+            $password = $this->input('password');
+            
+            // Validar campos
+            if (empty($username) || empty($password)) {
+                $data['error'] = 'Por favor ingrese usuario y contraseña';
+                $this->view('auth/login', $data, false);
+                return;
+            }
+            
+            // Intentar autenticar
+            if (Auth::login($username, $password)) {
+                // Login exitoso
+                $this->redirect(url('/dashboard'));
+            } else {
+                // Login fallido
+                $data['error'] = 'Usuario o contraseña incorrectos';
+                $this->view('auth/login', $data, false);
+            }
         } else {
-            // Login fallido
-            logMessage("Login fallido: {$username}", 'warning');
-            setFlash('error', 'Usuario o contraseña incorrectos');
-            redirect('login');
+            // Mostrar formulario de login
+            $this->view('auth/login', [], false);
         }
     }
     
     /**
-     * Cerrar sesión
+     * Cierra la sesión del usuario
      */
     public function logout() {
-        $username = session('usuario')['username'] ?? 'unknown';
         Auth::logout();
-        logMessage("Logout: {$username}");
-        
-        setFlash('success', 'Sesión cerrada correctamente');
-        redirect('login');
+        $this->redirect(url('/login'));
     }
     
     /**
-     * Mostrar formulario de recuperación de contraseña
+     * Recuperación de contraseña
      */
     public function recuperarPassword() {
-        if (Auth::check()) {
-            redirect('dashboard');
+        if ($this->isPost()) {
+            $email = $this->input('email');
+            
+            // TODO: Implementar lógica de recuperación de contraseña
+            $this->redirectWith(url('/login'), 
+                'Se ha enviado un correo con instrucciones para recuperar tu contraseña', 
+                'info');
+        } else {
+            $this->view('auth/recuperar-password', [], false);
         }
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->procesarRecuperacion();
-            return;
-        }
-        
-        $data = [
-            'title' => 'Recuperar Contraseña',
-            'error' => getFlash('error'),
-            'success' => getFlash('success')
-        ];
-        
-        require ROOT_PATH . '/views/auth/recuperar-password.php';
     }
     
     /**
-     * Procesar recuperación de contraseña
-     */
-    private function procesarRecuperacion() {
-        $email = $_POST['email'] ?? '';
-        
-        if (empty($email)) {
-            setFlash('error', 'Por favor ingrese su correo electrónico');
-            redirect('recuperar-password');
-        }
-        
-        if (!validarEmail($email)) {
-            setFlash('error', 'Por favor ingrese un correo electrónico válido');
-            redirect('recuperar-password');
-        }
-        
-        // TODO: Implementar envío de correo de recuperación
-        // Por ahora solo mostramos mensaje de éxito
-        
-        setFlash('success', 'Se ha enviado un correo con instrucciones para recuperar su contraseña');
-        redirect('login');
-    }
-    
-    /**
-     * Cambiar contraseña
+     * Cambio de contraseña
      */
     public function cambiarPassword() {
-        // Verificar que esté autenticado
-        if (!Auth::check()) {
-            redirect('login');
+        $this->requireAuth();
+        
+        if ($this->isPost()) {
+            $passwordActual = $this->input('password_actual');
+            $passwordNuevo = $this->input('password_nuevo');
+            $passwordConfirm = $this->input('password_confirm');
+            
+            // Validar que las contraseñas coincidan
+            if ($passwordNuevo !== $passwordConfirm) {
+                $data['error'] = 'Las contraseñas no coinciden';
+                $this->view('auth/cambiar-password', $data);
+                return;
+            }
+            
+            // Validar longitud mínima
+            if (strlen($passwordNuevo) < 6) {
+                $data['error'] = 'La contraseña debe tener al menos 6 caracteres';
+                $this->view('auth/cambiar-password', $data);
+                return;
+            }
+            
+            // Verificar contraseña actual
+            $userId = $_SESSION['user']['id'];
+            $db = Database::getInstance()->getConnection();
+            $stmt = $db->prepare("SELECT password FROM usuarios WHERE id = ?");
+            $stmt->execute([$userId]);
+            $user = $stmt->fetch();
+            
+            if (!password_verify($passwordActual, $user['password'])) {
+                $data['error'] = 'La contraseña actual es incorrecta';
+                $this->view('auth/cambiar-password', $data);
+                return;
+            }
+            
+            // Actualizar contraseña
+            $passwordHash = password_hash($passwordNuevo, PASSWORD_DEFAULT);
+            $stmt = $db->prepare("UPDATE usuarios SET password = ?, updated_at = NOW() 
+                                 WHERE id = ?");
+            $stmt->execute([$passwordHash, $userId]);
+            
+            // Registrar en auditoría
+            $stmt = $db->prepare("INSERT INTO auditoria (usuario_id, accion, tabla, registro_id, 
+                                 descripcion, ip, user_agent, created_at) 
+                                 VALUES (?, 'cambio_password', 'usuarios', ?, 
+                                 'Usuario cambió su contraseña', ?, ?, NOW())");
+            $stmt->execute([
+                $userId,
+                $userId,
+                $_SERVER['REMOTE_ADDR'],
+                $_SERVER['HTTP_USER_AGENT']
+            ]);
+            
+            $this->redirectWith(url('/dashboard'), 
+                'Contraseña actualizada correctamente', 
+                'success');
+        } else {
+            $this->view('auth/cambiar-password');
         }
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->procesarCambioPassword();
-            return;
-        }
-        
-        $data = [
-            'title' => 'Cambiar Contraseña',
-            'usuario' => currentUser(),
-            'error' => getFlash('error'),
-            'success' => getFlash('success')
-        ];
-        
-        $this->view('auth/cambiar-password', $data);
     }
     
     /**
-     * Procesar cambio de contraseña
+     * Verificar si la ruta actual es pública
+     * 
+     * @return bool
      */
-    private function procesarCambioPassword() {
-        $passwordActual = $_POST['password_actual'] ?? '';
-        $passwordNuevo = $_POST['password_nuevo'] ?? '';
-        $passwordConfirmar = $_POST['password_confirmar'] ?? '';
+    protected function isPublicRoute() {
+        $publicRoutes = ['/login', '/recuperar-password'];
+        $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         
-        // Validaciones
-        if (empty($passwordActual) || empty($passwordNuevo) || empty($passwordConfirmar)) {
-            setFlash('error', 'Por favor complete todos los campos');
-            redirect('cambiar-password');
+        foreach ($publicRoutes as $route) {
+            if (strpos($currentPath, $route) !== false) {
+                return true;
+            }
         }
         
-        if ($passwordNuevo !== $passwordConfirmar) {
-            setFlash('error', 'Las contraseñas no coinciden');
-            redirect('cambiar-password');
-        }
-        
-        if (strlen($passwordNuevo) < 6) {
-            setFlash('error', 'La contraseña debe tener al menos 6 caracteres');
-            redirect('cambiar-password');
-        }
-        
-        // Verificar contraseña actual
-        $usuario = currentUser();
-        $db = Database::getInstance()->getConnection();
-        
-        $stmt = $db->prepare("SELECT password_hash FROM usuarios WHERE id = ?");
-        $stmt->execute([$usuario['id']]);
-        $usuarioDb = $stmt->fetch();
-        
-        if (!password_verify($passwordActual, $usuarioDb['password_hash'])) {
-            setFlash('error', 'La contraseña actual es incorrecta');
-            redirect('cambiar-password');
-        }
-        
-        // Actualizar contraseña
-        $nuevoHash = password_hash($passwordNuevo, PASSWORD_DEFAULT);
-        $stmt = $db->prepare("UPDATE usuarios SET password_hash = ? WHERE id = ?");
-        
-        if ($stmt->execute([$nuevoHash, $usuario['id']])) {
-            logMessage("Cambio de contraseña exitoso: {$usuario['username']}");
-            setFlash('success', 'Contraseña actualizada correctamente');
-            redirect('dashboard');
-        } else {
-            setFlash('error', 'Error al actualizar la contraseña');
-            redirect('cambiar-password');
-        }
+        return false;
     }
 }
