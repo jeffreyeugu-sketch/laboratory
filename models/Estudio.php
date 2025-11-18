@@ -1,246 +1,238 @@
 <?php
 /**
- * Modelo Estudio
- * 
- * Maneja todas las operaciones relacionadas con el catálogo de estudios
+ * Modelo: Estudio
+ * Gestión de estudios del laboratorio
  */
 
-require_once CORE_PATH . '/Model.php';
-
 class Estudio extends Model {
-    
     protected $table = 'estudios';
-    protected $primaryKey = 'id';
-    
-    protected $fillable = [
-        'codigo_interno',
-        'codigo_loinc',
-        'nombre',
-        'nombre_corto',
-        'descripcion',
-        'area_id',
-        'tipo_muestra_id',
-        'volumen_requerido',
-        'metodologia_id',
-        'dias_proceso',
-        'indicaciones_paciente',
-        'activo'
-    ];
     
     /**
-     * Busca estudios por nombre o código
-     * 
-     * @param string $termino
-     * @param int $limit
-     * @return array
+     * Obtener todos los estudios con información relacionada
      */
-    public function buscar($termino, $limit = 20) {
-        $sql = "SELECT e.*, 
-                       a.nombre as area_nombre,
-                       a.color as area_color,
-                       tm.nombre as tipo_muestra_nombre,
-                       m.nombre as metodologia_nombre
-                FROM {$this->table} e
-                LEFT JOIN areas a ON e.area_id = a.id
-                LEFT JOIN tipos_muestra tm ON e.tipo_muestra_id = tm.id
-                LEFT JOIN metodologias m ON e.metodologia_id = m.id
-                WHERE e.activo = 1
-                AND (e.codigo_interno LIKE ? 
-                     OR e.nombre LIKE ? 
-                     OR e.nombre_corto LIKE ?
-                     OR e.codigo_loinc LIKE ?)
-                ORDER BY e.nombre
-                LIMIT ?";
+    public function obtenerTodos() {
+        $query = "SELECT e.*, 
+                         a.nombre as area_nombre,
+                         tm.nombre as tipo_muestra_nombre,
+                         m.nombre as metodologia_nombre,
+                         d.nombre as departamento_nombre,
+                         lr.nombre as laboratorio_referencia_nombre
+                  FROM {$this->table} e
+                  INNER JOIN areas a ON e.area_id = a.id
+                  INNER JOIN tipos_muestra tm ON e.tipo_muestra_id = tm.id
+                  LEFT JOIN metodologias m ON e.metodologia_id = m.id
+                  LEFT JOIN departamentos d ON e.departamento_id = d.id
+                  LEFT JOIN laboratorios_referencia lr ON e.laboratorio_referencia_id = lr.id
+                  ORDER BY e.activo DESC, e.nombre ASC";
         
-        $searchTerm = "%{$termino}%";
-        return $this->queryAll($sql, [$searchTerm, $searchTerm, $searchTerm, $searchTerm, $limit]);
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     /**
-     * Obtiene un estudio con todos sus detalles
-     * 
-     * @param int $id
-     * @return array|null
+     * Obtener estudios activos
      */
-    public function obtenerConDetalles($id) {
-        $sql = "SELECT e.*, 
-                       a.nombre as area_nombre, a.color as area_color,
-                       tm.nombre as tipo_muestra_nombre,
-                       m.nombre as metodologia_nombre
-                FROM {$this->table} e
-                LEFT JOIN areas a ON e.area_id = a.id
-                LEFT JOIN tipos_muestra tm ON e.tipo_muestra_id = tm.id
-                LEFT JOIN metodologias m ON e.metodologia_id = m.id
-                WHERE e.id = ?";
+    public function obtenerActivos() {
+        $query = "SELECT e.*, 
+                         a.nombre as area_nombre,
+                         tm.nombre as tipo_muestra_nombre
+                  FROM {$this->table} e
+                  INNER JOIN areas a ON e.area_id = a.id
+                  INNER JOIN tipos_muestra tm ON e.tipo_muestra_id = tm.id
+                  WHERE e.activo = 1
+                  ORDER BY e.nombre ASC";
         
-        $estudio = $this->queryOne($sql, [$id]);
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     * Obtener estudio por ID con toda la información
+     */
+    public function obtenerPorId($id) {
+        $query = "SELECT e.*, 
+                         a.nombre as area_nombre,
+                         tm.nombre as tipo_muestra_nombre,
+                         m.nombre as metodologia_nombre,
+                         d.nombre as departamento_nombre,
+                         lr.nombre as laboratorio_referencia_nombre
+                  FROM {$this->table} e
+                  INNER JOIN areas a ON e.area_id = a.id
+                  INNER JOIN tipos_muestra tm ON e.tipo_muestra_id = tm.id
+                  LEFT JOIN metodologias m ON e.metodologia_id = m.id
+                  LEFT JOIN departamentos d ON e.departamento_id = d.id
+                  LEFT JOIN laboratorios_referencia lr ON e.laboratorio_referencia_id = lr.id
+                  WHERE e.id = :id";
         
-        if ($estudio) {
-            // Obtener parámetros
-            $estudio['parametros'] = $this->obtenerParametros($id);
-            
-            // Obtener indicaciones
-            $estudio['indicaciones'] = $this->obtenerIndicaciones($id);
-            
-            // Obtener precios
-            $estudio['precios'] = $this->obtenerPrecios($id);
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     * Crear nuevo estudio
+     */
+    public function crear($datos) {
+        $query = "INSERT INTO {$this->table} 
+                  (codigo_interno, codigo_loinc, nombre, nombre_corto, descripcion,
+                   area_id, tipo_muestra_id, volumen_requerido, metodologia_id,
+                   dias_proceso, indicaciones_paciente, activo,
+                   es_subrogado, laboratorio_referencia_id, departamento_id)
+                  VALUES 
+                  (:codigo_interno, :codigo_loinc, :nombre, :nombre_corto, :descripcion,
+                   :area_id, :tipo_muestra_id, :volumen_requerido, :metodologia_id,
+                   :dias_proceso, :indicaciones_paciente, :activo,
+                   :es_subrogado, :laboratorio_referencia_id, :departamento_id)";
+        
+        $stmt = $this->db->prepare($query);
+        
+        $stmt->bindParam(':codigo_interno', $datos['codigo_interno']);
+        $stmt->bindParam(':codigo_loinc', $datos['codigo_loinc']);
+        $stmt->bindParam(':nombre', $datos['nombre']);
+        $stmt->bindParam(':nombre_corto', $datos['nombre_corto']);
+        $stmt->bindParam(':descripcion', $datos['descripcion']);
+        $stmt->bindParam(':area_id', $datos['area_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':tipo_muestra_id', $datos['tipo_muestra_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':volumen_requerido', $datos['volumen_requerido']);
+        $stmt->bindParam(':metodologia_id', $datos['metodologia_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':dias_proceso', $datos['dias_proceso'], PDO::PARAM_INT);
+        $stmt->bindParam(':indicaciones_paciente', $datos['indicaciones_paciente']);
+        $stmt->bindParam(':activo', $datos['activo'], PDO::PARAM_BOOL);
+        $stmt->bindParam(':es_subrogado', $datos['es_subrogado'], PDO::PARAM_BOOL);
+        $stmt->bindParam(':laboratorio_referencia_id', $datos['laboratorio_referencia_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':departamento_id', $datos['departamento_id'], PDO::PARAM_INT);
+        
+        if ($stmt->execute()) {
+            return $this->db->lastInsertId();
         }
         
-        return $estudio;
+        return false;
     }
     
     /**
-     * Obtiene los parámetros de un estudio
-     * 
-     * @param int $estudioId
-     * @return array
+     * Actualizar estudio
      */
-    public function obtenerParametros($estudioId) {
-        $sql = "SELECT ep.*,
-                       pt.nombre as tipo_nombre,
-                       pt.clave as tipo_clave
-                FROM estudio_parametros ep
-                JOIN parametro_tipos pt ON ep.tipo_parametro_id = pt.id
-                WHERE ep.estudio_id = ? AND ep.activo = 1
-                ORDER BY ep.orden";
+    public function actualizar($id, $datos) {
+        $query = "UPDATE {$this->table} SET
+                  codigo_interno = :codigo_interno,
+                  codigo_loinc = :codigo_loinc,
+                  nombre = :nombre,
+                  nombre_corto = :nombre_corto,
+                  descripcion = :descripcion,
+                  area_id = :area_id,
+                  tipo_muestra_id = :tipo_muestra_id,
+                  volumen_requerido = :volumen_requerido,
+                  metodologia_id = :metodologia_id,
+                  dias_proceso = :dias_proceso,
+                  indicaciones_paciente = :indicaciones_paciente,
+                  activo = :activo,
+                  es_subrogado = :es_subrogado,
+                  laboratorio_referencia_id = :laboratorio_referencia_id,
+                  departamento_id = :departamento_id
+                  WHERE id = :id";
         
-        $parametros = $this->queryAll($sql, [$estudioId]);
+        $stmt = $this->db->prepare($query);
         
-        // Para cada parámetro, obtener valores de referencia y opciones
-        foreach ($parametros as &$parametro) {
-            $parametro['valores_referencia'] = $this->obtenerValoresReferencia($parametro['id']);
-            
-            if ($parametro['tipo_clave'] === 'opcion_multiple') {
-                $parametro['opciones'] = $this->obtenerOpcionesParametro($parametro['id']);
-            }
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':codigo_interno', $datos['codigo_interno']);
+        $stmt->bindParam(':codigo_loinc', $datos['codigo_loinc']);
+        $stmt->bindParam(':nombre', $datos['nombre']);
+        $stmt->bindParam(':nombre_corto', $datos['nombre_corto']);
+        $stmt->bindParam(':descripcion', $datos['descripcion']);
+        $stmt->bindParam(':area_id', $datos['area_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':tipo_muestra_id', $datos['tipo_muestra_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':volumen_requerido', $datos['volumen_requerido']);
+        $stmt->bindParam(':metodologia_id', $datos['metodologia_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':dias_proceso', $datos['dias_proceso'], PDO::PARAM_INT);
+        $stmt->bindParam(':indicaciones_paciente', $datos['indicaciones_paciente']);
+        $stmt->bindParam(':activo', $datos['activo'], PDO::PARAM_BOOL);
+        $stmt->bindParam(':es_subrogado', $datos['es_subrogado'], PDO::PARAM_BOOL);
+        $stmt->bindParam(':laboratorio_referencia_id', $datos['laboratorio_referencia_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':departamento_id', $datos['departamento_id'], PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+    
+    /**
+     * Eliminar estudio (solo desactivar)
+     */
+    public function eliminar($id) {
+        // Solo desactivar, no eliminar físicamente
+        $query = "UPDATE {$this->table} SET activo = 0 WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+    
+    /**
+     * Verificar si existe código interno
+     */
+    public function existeCodigoInterno($codigo, $excluirId = null) {
+        $query = "SELECT COUNT(*) as total FROM {$this->table} WHERE codigo_interno = :codigo";
+        if ($excluirId) {
+            $query .= " AND id != :id";
         }
         
-        return $parametros;
-    }
-    
-    /**
-     * Obtiene los valores de referencia de un parámetro
-     * 
-     * @param int $parametroId
-     * @return array
-     */
-    public function obtenerValoresReferencia($parametroId) {
-        $sql = "SELECT * FROM parametro_valores_referencia
-                WHERE parametro_id = ?
-                ORDER BY sexo, edad_min";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':codigo', $codigo);
+        if ($excluirId) {
+            $stmt->bindParam(':id', $excluirId, PDO::PARAM_INT);
+        }
         
-        return $this->queryAll($sql, [$parametroId]);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['total'] > 0;
     }
     
     /**
-     * Obtiene las opciones de un parámetro de tipo opción múltiple
-     * 
-     * @param int $parametroId
-     * @return array
-     */
-    public function obtenerOpcionesParametro($parametroId) {
-        $sql = "SELECT * FROM parametro_opciones
-                WHERE parametro_id = ? AND activo = 1
-                ORDER BY orden";
-        
-        return $this->queryAll($sql, [$parametroId]);
-    }
-    
-    /**
-     * Obtiene las indicaciones de un estudio
-     * 
-     * @param int $estudioId
-     * @return array
-     */
-    public function obtenerIndicaciones($estudioId) {
-        $sql = "SELECT * FROM estudio_indicaciones
-                WHERE estudio_id = ?
-                ORDER BY orden";
-        
-        return $this->queryAll($sql, [$estudioId]);
-    }
-    
-    /**
-     * Obtiene los precios de un estudio en todas las listas
-     * 
-     * @param int $estudioId
-     * @return array
-     */
-    public function obtenerPrecios($estudioId) {
-        $sql = "SELECT ep.*,
-                       lp.nombre as lista_nombre,
-                       lp.tipo as lista_tipo
-                FROM estudio_precios ep
-                JOIN listas_precios lp ON ep.lista_precio_id = lp.id
-                WHERE ep.estudio_id = ? AND lp.activa = 1
-                ORDER BY lp.tipo, lp.nombre";
-        
-        return $this->queryAll($sql, [$estudioId]);
-    }
-    
-    /**
-     * Obtiene el precio de un estudio en una lista específica
-     * 
-     * @param int $estudioId
-     * @param int $listaPrecioId
-     * @return float|null
-     */
-    public function obtenerPrecio($estudioId, $listaPrecioId) {
-        $sql = "SELECT precio_base FROM estudio_precios
-                WHERE estudio_id = ? AND lista_precio_id = ?";
-        
-        $result = $this->queryOne($sql, [$estudioId, $listaPrecioId]);
-        return $result ? $result['precio_base'] : null;
-    }
-    
-    /**
-     * Obtiene estudios por área
-     * 
-     * @param int $areaId
-     * @return array
+     * Obtener estudios por área
      */
     public function obtenerPorArea($areaId) {
-        $sql = "SELECT e.*,
-                       a.nombre as area_nombre,
-                       a.color as area_color
-                FROM {$this->table} e
-                JOIN areas a ON e.area_id = a.id
-                WHERE e.area_id = ? AND e.activo = 1
-                ORDER BY e.nombre";
+        $query = "SELECT * FROM {$this->table} 
+                  WHERE area_id = :area_id AND activo = 1
+                  ORDER BY nombre ASC";
         
-        return $this->queryAll($sql, [$areaId]);
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':area_id', $areaId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     /**
-     * Obtiene estudios más solicitados
-     * 
-     * @param int $limit
-     * @param int|null $sucursalId
-     * @return array
+     * Obtener estudios subrogados
      */
-    public function obtenerMasSolicitados($limit = 10, $sucursalId = null) {
-        $sql = "SELECT e.id, e.codigo_interno, e.nombre,
-                       a.nombre as area_nombre,
-                       COUNT(oe.id) as total_veces
-                FROM {$this->table} e
-                JOIN orden_estudios oe ON e.id = oe.estudio_id
-                JOIN ordenes o ON oe.orden_id = o.id
-                JOIN areas a ON e.area_id = a.id
-                WHERE e.activo = 1";
+    public function obtenerSubrogados() {
+        $query = "SELECT e.*, lr.nombre as laboratorio_nombre
+                  FROM {$this->table} e
+                  INNER JOIN laboratorios_referencia lr ON e.laboratorio_referencia_id = lr.id
+                  WHERE e.es_subrogado = 1 AND e.activo = 1
+                  ORDER BY lr.nombre ASC, e.nombre ASC";
         
-        $params = [];
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     * Buscar estudios
+     */
+    public function buscar($termino) {
+        $query = "SELECT e.*, a.nombre as area_nombre
+                  FROM {$this->table} e
+                  INNER JOIN areas a ON e.area_id = a.id
+                  WHERE (e.nombre LIKE :termino 
+                  OR e.nombre_corto LIKE :termino
+                  OR e.codigo_interno LIKE :termino
+                  OR e.codigo_loinc LIKE :termino)
+                  ORDER BY e.activo DESC, e.nombre ASC";
         
-        if ($sucursalId) {
-            $sql .= " AND o.sucursal_id = ?";
-            $params[] = $sucursalId;
-        }
-        
-        $sql .= " GROUP BY e.id
-                  ORDER BY total_veces DESC
-                  LIMIT ?";
-        
-        $params[] = $limit;
-        
-        return $this->queryAll($sql, $params);
+        $stmt = $this->db->prepare($query);
+        $searchTerm = "%{$termino}%";
+        $stmt->bindParam(':termino', $searchTerm);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -223,9 +223,44 @@
                                 <p>Sucursales</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?= BASE_URL ?>/catalogos/laboratorios-referencia" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Laboratorios de Referencia</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= BASE_URL ?>/catalogos/metodologias" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Metodologías</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= BASE_URL ?>/catalogos/tipos-muestra" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tipos de Muestra</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= BASE_URL ?>/catalogos/etiquetas" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Etiquetas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= BASE_URL ?>/catalogos/indicaciones" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Indicaciones</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= BASE_URL ?>/catalogos/departamentos" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Departamentos</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
-
                 <li class="nav-item">
                     <a href="<?= BASE_URL ?>/usuarios" class="nav-link <?= isActive('usuarios') ?>">
                         <i class="nav-icon fas fa-user-shield"></i>

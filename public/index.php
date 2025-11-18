@@ -112,6 +112,52 @@ $routes = [
     '/catalogos/sucursales' => ['controller' => 'CatalogoController', 'method' => 'sucursales'],
     '/catalogos/areas' => ['controller' => 'CatalogoController', 'method' => 'areas'],
     '/catalogos/companias' => ['controller' => 'CatalogoController', 'method' => 'companias'],
+
+    // ============================================================================
+    // CATÁLOGOS ADICIONALES
+    // ============================================================================
+    
+    // CATÁLOGO: ESTUDIOS
+    '/catalogos/estudios' => ['controller' => 'EstudioController', 'method' => 'index'],
+    '/catalogos/estudios/crear' => ['controller' => 'EstudioController', 'method' => 'crear'],
+    '/catalogos/estudios/guardar' => ['controller' => 'EstudioController', 'method' => 'guardar'],
+    '/catalogos/estudios/listar' => ['controller' => 'EstudioController', 'method' => 'listar'],
+    
+    // CATÁLOGO: LABORATORIOS DE REFERENCIA
+    '/catalogos/laboratorios-referencia' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'index'],
+    '/catalogos/laboratorios-referencia/crear' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'crear'],
+    '/catalogos/laboratorios-referencia/guardar' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'guardar'],
+    '/catalogos/laboratorios-referencia/listar' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'listar'],
+    
+    // CATÁLOGO: METODOLOGÍAS
+    '/catalogos/metodologias' => ['controller' => 'MetodologiaController', 'method' => 'index'],
+    '/catalogos/metodologias/crear' => ['controller' => 'MetodologiaController', 'method' => 'crear'],
+    '/catalogos/metodologias/guardar' => ['controller' => 'MetodologiaController', 'method' => 'guardar'],
+    '/catalogos/metodologias/listar' => ['controller' => 'MetodologiaController', 'method' => 'listar'],
+    
+    // CATÁLOGO: TIPOS DE MUESTRA
+    '/catalogos/tipos-muestra' => ['controller' => 'TipoMuestraController', 'method' => 'index'],
+    '/catalogos/tipos-muestra/crear' => ['controller' => 'TipoMuestraController', 'method' => 'crear'],
+    '/catalogos/tipos-muestra/guardar' => ['controller' => 'TipoMuestraController', 'method' => 'guardar'],
+    '/catalogos/tipos-muestra/listar' => ['controller' => 'TipoMuestraController', 'method' => 'listar'],
+    
+    // CATÁLOGO: ETIQUETAS
+    '/catalogos/etiquetas' => ['controller' => 'EtiquetaController', 'method' => 'index'],
+    '/catalogos/etiquetas/crear' => ['controller' => 'EtiquetaController', 'method' => 'crear'],
+    '/catalogos/etiquetas/guardar' => ['controller' => 'EtiquetaController', 'method' => 'guardar'],
+    '/catalogos/etiquetas/listar' => ['controller' => 'EtiquetaController', 'method' => 'listar'],
+    
+    // CATÁLOGO: INDICACIONES
+    '/catalogos/indicaciones' => ['controller' => 'IndicacionController', 'method' => 'index'],
+    '/catalogos/indicaciones/crear' => ['controller' => 'IndicacionController', 'method' => 'crear'],
+    '/catalogos/indicaciones/guardar' => ['controller' => 'IndicacionController', 'method' => 'guardar'],
+    '/catalogos/indicaciones/listar' => ['controller' => 'IndicacionController', 'method' => 'listar'],
+    
+    // CATÁLOGO: DEPARTAMENTOS
+    '/catalogos/departamentos' => ['controller' => 'DepartamentoController', 'method' => 'index'],
+    '/catalogos/departamentos/crear' => ['controller' => 'DepartamentoController', 'method' => 'crear'],
+    '/catalogos/departamentos/guardar' => ['controller' => 'DepartamentoController', 'method' => 'guardar'],
+    '/catalogos/departamentos/listar' => ['controller' => 'DepartamentoController', 'method' => 'listar'],
     
     // Usuarios y Roles
     '/usuarios' => ['controller' => 'UsuarioController', 'method' => 'index'],
@@ -150,6 +196,48 @@ $dynamicRoutes = [
     
     // Pagos con ID
     '/pagos/ver/' => ['controller' => 'PagoController', 'method' => 'ver'],
+
+    // ============================================================================
+    // CATÁLOGOS - RUTAS DINÁMICAS (con ID)
+    // ============================================================================
+    
+    // Estudios con ID
+    '/catalogos/estudios/ver/' => ['controller' => 'EstudioController', 'method' => 'ver'],
+    '/catalogos/estudios/editar/' => ['controller' => 'EstudioController', 'method' => 'editar'],
+    '/catalogos/estudios/actualizar/' => ['controller' => 'EstudioController', 'method' => 'actualizar'],
+    '/catalogos/estudios/eliminar/' => ['controller' => 'EstudioController', 'method' => 'eliminar'],
+    
+    // Laboratorios de Referencia con ID
+    '/catalogos/laboratorios-referencia/ver/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'ver'],
+    '/catalogos/laboratorios-referencia/editar/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'editar'],
+    '/catalogos/laboratorios-referencia/actualizar/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'actualizar'],
+    '/catalogos/laboratorios-referencia/eliminar/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'eliminar'],
+    '/catalogos/laboratorios-referencia/cambiar-estado/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'cambiarEstado'],
+    
+    // Metodologías con ID
+    '/catalogos/metodologias/editar/' => ['controller' => 'MetodologiaController', 'method' => 'editar'],
+    '/catalogos/metodologias/actualizar/' => ['controller' => 'MetodologiaController', 'method' => 'actualizar'],
+    '/catalogos/metodologias/eliminar/' => ['controller' => 'MetodologiaController', 'method' => 'eliminar'],
+    
+    // Tipos de Muestra con ID
+    '/catalogos/tipos-muestra/editar/' => ['controller' => 'TipoMuestraController', 'method' => 'editar'],
+    '/catalogos/tipos-muestra/actualizar/' => ['controller' => 'TipoMuestraController', 'method' => 'actualizar'],
+    '/catalogos/tipos-muestra/eliminar/' => ['controller' => 'TipoMuestraController', 'method' => 'eliminar'],
+    
+    // Etiquetas con ID
+    '/catalogos/etiquetas/editar/' => ['controller' => 'EtiquetaController', 'method' => 'editar'],
+    '/catalogos/etiquetas/actualizar/' => ['controller' => 'EtiquetaController', 'method' => 'actualizar'],
+    '/catalogos/etiquetas/eliminar/' => ['controller' => 'EtiquetaController', 'method' => 'eliminar'],
+    
+    // Indicaciones con ID
+    '/catalogos/indicaciones/editar/' => ['controller' => 'IndicacionController', 'method' => 'editar'],
+    '/catalogos/indicaciones/actualizar/' => ['controller' => 'IndicacionController', 'method' => 'actualizar'],
+    '/catalogos/indicaciones/eliminar/' => ['controller' => 'IndicacionController', 'method' => 'eliminar'],
+    
+    // Departamentos con ID
+    '/catalogos/departamentos/editar/' => ['controller' => 'DepartamentoController', 'method' => 'editar'],
+    '/catalogos/departamentos/actualizar/' => ['controller' => 'DepartamentoController', 'method' => 'actualizar'],
+    '/catalogos/departamentos/eliminar/' => ['controller' => 'DepartamentoController', 'method' => 'eliminar'],
 ];
 
 // ============================================================================
