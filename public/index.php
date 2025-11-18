@@ -30,6 +30,26 @@ require_once ROOT_PATH . '/core/Controller.php';
 require_once ROOT_PATH . '/core/Auth.php';
 require_once ROOT_PATH . '/core/Validator.php';
 
+// ============================================================================
+// AUTOLOADER PARA MODELOS
+// ============================================================================
+spl_autoload_register(function ($className) {
+    // Lista de directorios donde buscar clases
+    $directories = [
+        ROOT_PATH . '/models/',
+        ROOT_PATH . '/controllers/',
+        ROOT_PATH . '/core/'
+    ];
+    
+    foreach ($directories as $directory) {
+        $file = $directory . $className . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+            return;
+        }
+    }
+});
+
 // Manejo de errores
 if ($config['app_env'] === 'development') {
     error_reporting(E_ALL);
@@ -103,21 +123,6 @@ $routes = [
     '/pagos/imprimir-recibo' => ['controller' => 'PagoController', 'method' => 'imprimirRecibo'],
     
     // Catálogos
-    '/catalogos/estudios' => ['controller' => 'CatalogoController', 'method' => 'estudios'],
-    '/catalogos/estudios/crear' => ['controller' => 'CatalogoController', 'method' => 'crearEstudio'],
-    '/catalogos/estudios/guardar' => ['controller' => 'CatalogoController', 'method' => 'guardarEstudio'],
-    '/catalogos/estudios/editar' => ['controller' => 'CatalogoController', 'method' => 'editarEstudio'],
-    '/catalogos/estudios/actualizar' => ['controller' => 'CatalogoController', 'method' => 'actualizarEstudio'],
-    '/catalogos/precios' => ['controller' => 'CatalogoController', 'method' => 'precios'],
-    '/catalogos/sucursales' => ['controller' => 'CatalogoController', 'method' => 'sucursales'],
-    '/catalogos/areas' => ['controller' => 'CatalogoController', 'method' => 'areas'],
-    '/catalogos/companias' => ['controller' => 'CatalogoController', 'method' => 'companias'],
-
-    // ============================================================================
-    // CATÁLOGOS ADICIONALES
-    // ============================================================================
-    
-    // CATÁLOGO: ESTUDIOS
     '/catalogos/estudios' => ['controller' => 'EstudioController', 'method' => 'index'],
     '/catalogos/estudios/crear' => ['controller' => 'EstudioController', 'method' => 'crear'],
     '/catalogos/estudios/guardar' => ['controller' => 'EstudioController', 'method' => 'guardar'],
@@ -159,33 +164,29 @@ $routes = [
     '/catalogos/departamentos/guardar' => ['controller' => 'DepartamentoController', 'method' => 'guardar'],
     '/catalogos/departamentos/listar' => ['controller' => 'DepartamentoController', 'method' => 'listar'],
     
-    // Usuarios y Roles
+    // Usuarios
     '/usuarios' => ['controller' => 'UsuarioController', 'method' => 'index'],
     '/usuarios/crear' => ['controller' => 'UsuarioController', 'method' => 'crear'],
     '/usuarios/guardar' => ['controller' => 'UsuarioController', 'method' => 'guardar'],
-    '/usuarios/editar' => ['controller' => 'UsuarioController', 'method' => 'editar'],
-    '/usuarios/actualizar' => ['controller' => 'UsuarioController', 'method' => 'actualizar'],
-    '/usuarios/eliminar' => ['controller' => 'UsuarioController', 'method' => 'eliminar'],
+    
+    // Roles
     '/roles' => ['controller' => 'RolController', 'method' => 'index'],
-    '/roles/editar' => ['controller' => 'RolController', 'method' => 'editar'],
-    '/roles/actualizar-permisos' => ['controller' => 'RolController', 'method' => 'actualizarPermisos'],
     
     // Reportes
-    '/reportes' => ['controller' => 'ReporteController', 'method' => 'index'],
     '/reportes/produccion' => ['controller' => 'ReporteController', 'method' => 'produccion'],
     '/reportes/ingresos' => ['controller' => 'ReporteController', 'method' => 'ingresos'],
     '/reportes/estudios' => ['controller' => 'ReporteController', 'method' => 'estudios'],
+    '/reportes/pacientes' => ['controller' => 'ReporteController', 'method' => 'pacientes'],
 ];
 
 // ============================================================================
-// DEFINICIÓN DE RUTAS DINÁMICAS (con parámetros)
+// RUTAS DINÁMICAS (CON PARÁMETROS)
 // ============================================================================
 $dynamicRoutes = [
     // Pacientes con ID
     '/pacientes/ver/' => ['controller' => 'PacienteController', 'method' => 'ver'],
     '/pacientes/editar/' => ['controller' => 'PacienteController', 'method' => 'editar'],
     '/pacientes/actualizar/' => ['controller' => 'PacienteController', 'method' => 'actualizar'],
-    '/pacientes/obtener/' => ['controller' => 'PacienteController', 'method' => 'obtener'],
     '/pacientes/eliminar/' => ['controller' => 'PacienteController', 'method' => 'eliminar'],
     
     // Órdenes con ID
@@ -194,18 +195,12 @@ $dynamicRoutes = [
     '/ordenes/actualizar/' => ['controller' => 'OrdenController', 'method' => 'actualizar'],
     '/ordenes/cancelar/' => ['controller' => 'OrdenController', 'method' => 'cancelar'],
     
-    // Pagos con ID
-    '/pagos/ver/' => ['controller' => 'PagoController', 'method' => 'ver'],
-
-    // ============================================================================
-    // CATÁLOGOS - RUTAS DINÁMICAS (con ID)
-    // ============================================================================
-    
     // Estudios con ID
     '/catalogos/estudios/ver/' => ['controller' => 'EstudioController', 'method' => 'ver'],
     '/catalogos/estudios/editar/' => ['controller' => 'EstudioController', 'method' => 'editar'],
     '/catalogos/estudios/actualizar/' => ['controller' => 'EstudioController', 'method' => 'actualizar'],
     '/catalogos/estudios/eliminar/' => ['controller' => 'EstudioController', 'method' => 'eliminar'],
+    '/catalogos/estudios/cambiar-estado/' => ['controller' => 'EstudioController', 'method' => 'cambiarEstado'],
     
     // Laboratorios de Referencia con ID
     '/catalogos/laboratorios-referencia/ver/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'ver'],
@@ -238,6 +233,17 @@ $dynamicRoutes = [
     '/catalogos/departamentos/editar/' => ['controller' => 'DepartamentoController', 'method' => 'editar'],
     '/catalogos/departamentos/actualizar/' => ['controller' => 'DepartamentoController', 'method' => 'actualizar'],
     '/catalogos/departamentos/eliminar/' => ['controller' => 'DepartamentoController', 'method' => 'eliminar'],
+    
+    // Usuarios con ID
+    '/usuarios/ver/' => ['controller' => 'UsuarioController', 'method' => 'ver'],
+    '/usuarios/editar/' => ['controller' => 'UsuarioController', 'method' => 'editar'],
+    '/usuarios/actualizar/' => ['controller' => 'UsuarioController', 'method' => 'actualizar'],
+    '/usuarios/eliminar/' => ['controller' => 'UsuarioController', 'method' => 'eliminar'],
+    '/usuarios/cambiar-estado/' => ['controller' => 'UsuarioController', 'method' => 'cambiarEstado'],
+    
+    // Roles con ID
+    '/roles/editar/' => ['controller' => 'RolController', 'method' => 'editar'],
+    '/roles/actualizar-permisos/' => ['controller' => 'RolController', 'method' => 'actualizarPermisos'],
 ];
 
 // ============================================================================

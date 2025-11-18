@@ -46,7 +46,7 @@ class Auth {
                              WHERE id = ?");
         $stmt->execute([$user['id']]);
         
-        // Guardar datos del usuario en sesión
+        // CORRECCIÓN: Guardar TODO en $_SESSION['user'] para mantener consistencia
         $_SESSION['user'] = [
             'id' => $user['id'],
             'username' => $user['username'],
@@ -70,7 +70,7 @@ class Auth {
         self::loadPermissions($user['id']);
         
         // Registrar en auditoría
-        self::logAudit($user['id'], 'login', 'usuarios', $user['id']);
+        self::logAudit($user['id'], 'login', 'usuarios', 'usuario', $user['id']);
         
         return true;
     }
@@ -80,7 +80,7 @@ class Auth {
      */
     public static function logout() {
         if (self::check()) {
-            self::logAudit($_SESSION['user_id'], 'logout', 'usuarios', $_SESSION['user_id']);
+            self::logAudit($_SESSION['user_id'], 'logout', 'usuarios', 'usuario', $_SESSION['user_id']);
         }
         
         session_destroy();
@@ -94,15 +94,6 @@ class Auth {
      */
     public static function check() {
         return isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
-    }
-    
-    /**
-     * Alias de check() para compatibilidad
-     * 
-     * @return bool
-     */
-    public static function isAuthenticated() {
-        return self::check();
     }
     
     /**
@@ -148,9 +139,8 @@ class Auth {
      */
     private static function loadPermissions($userId) {
         $db = Database::getInstance()->getConnection();
-        $permisos = [];
         
-        // Obtener permisos del rol
+        // Obtener permisos de roles asignados
         $sql = "SELECT DISTINCT p.clave
                 FROM permisos p
                 INNER JOIN rol_permisos rp ON p.id = rp.permiso_id
@@ -160,11 +150,12 @@ class Auth {
         $stmt = $db->prepare($sql);
         $stmt->execute([$userId]);
         
+        $permisos = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $permisos[] = $row['clave'];
         }
         
-        // Agregar permisos extras concedidos
+        // Obtener permisos extras concedidos
         $sql = "SELECT p.clave
                 FROM permisos p
                 INNER JOIN usuario_permisos_extra upe ON p.id = upe.permiso_id
@@ -268,32 +259,58 @@ class Auth {
      * 
      * @param int $userId
      * @param string $accion
-     * @param string $tabla
-     * @param int $registroId
+     * @param string $modulo
+     * @param string $entidadTipo
+     * @param int $entidadId
+     * @param array $datosAnteriores
+     * @param array $datosNuevos
      * @param string $descripcion
      */
-    private static function logAudit($userId, $accion, $tabla, $registroId, $descripcion = '') {
+    public static function logAudit($userId, $accion, $modulo, $entidadTipo = null, $entidadId = null, $datosAnteriores = null, $datosNuevos = null, $descripcion = null) {
         try {
             $db = Database::getInstance()->getConnection();
             
-            $stmt = $db->prepare("
-                INSERT INTO auditoria 
-                (usuario_id, accion, tabla, registro_id, detalles, ip, user_agent, fecha_hora)
-                VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
-            ");
+            $stmt = $db->prepare("INSERT INTO auditoria 
+                                 (usuario_id, accion, modulo, entidad_tipo, entidad_id, 
+                                  datos_anteriores, datos_nuevos, descripcion, ip_address, user_agent, sucursal_id)
+                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
             $stmt->execute([
                 $userId,
                 $accion,
-                $tabla,
-                $registroId,
+                $modulo,
+                $entidadTipo,
+                $entidadId,
+                $datosAnteriores ? json_encode($datosAnteriores) : null,
+                $datosNuevos ? json_encode($datosNuevos) : null,
                 $descripcion,
-                $_SERVER['REMOTE_ADDR'] ?? '',
-                $_SERVER['HTTP_USER_AGENT'] ?? ''
+                $_SERVER['REMOTE_ADDR'] ?? null,
+                $_SERVER['HTTP_USER_AGENT'] ?? null,
+                $_SESSION['sucursal_id'] ?? null
             ]);
         } catch (Exception $e) {
-            // Log error pero no interrumpir el flujo
             error_log("Error al registrar auditoría: " . $e->getMessage());
         }
+    }
+    
+    /**
+     * Cambiar contraseña del usuario
+     * 
+     * @param int $userId
+     * @param string $newPassword
+     * @return bool
+     */
+    public static function changePassword($userId, $newPassword) {
+        $db = Database::getInstance()->getConnection();
+        
+        $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+        
+        $stmt = $db->prepare("UPDATE usuarios SET 
+                             password_hash = ?,
+                             requiere_cambio_password = 0,
+                             fecha_expiracion_password = DATE_ADD(NOW(), INTERVAL 90 DAY)
+                             WHERE id = ?");
+        
+        return $stmt->execute([$passwordHash, $userId]);
     }
 }

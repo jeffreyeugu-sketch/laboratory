@@ -1,17 +1,10 @@
-<?php
-/**
- * Vista: catalogos/estudios/index.php
- * Listado de estudios
- */
-?>
-
 <div class="row mb-4">
     <div class="col-md-8">
         <h2 class="mb-1">
-            <i class="fas fa-flask text-primary me-2"></i>
+            <i class="fas fa-vial text-primary me-2"></i>
             Catálogo de Estudios
         </h2>
-        <p class="text-muted">Gestión del catálogo completo de estudios del laboratorio</p>
+        <p class="text-muted">Gestión del catálogo de estudios del laboratorio</p>
     </div>
     <div class="col-md-4 text-end">
         <a href="<?= url('catalogos/estudios/crear') ?>" class="btn btn-primary">
@@ -21,6 +14,18 @@
     </div>
 </div>
 
+<?php if (isset($_SESSION['flash_message'])): ?>
+<div class="alert alert-<?= $_SESSION['flash_type'] ?? 'info' ?> alert-dismissible fade show" role="alert">
+    <?= htmlspecialchars($_SESSION['flash_message']) ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<?php 
+    unset($_SESSION['flash_message']);
+    unset($_SESSION['flash_type']);
+endif; 
+?>
+
+<!-- Tarjeta con tabla -->
 <div class="stat-card">
     <div class="table-responsive">
         <table id="tablaEstudios" class="table table-hover">
@@ -30,106 +35,155 @@
                     <th>Nombre</th>
                     <th>Área</th>
                     <th>Tipo Muestra</th>
-                    <th>Días</th>
+                    <th>Días Proceso</th>
                     <th>Subrogado</th>
                     <th>Estado</th>
-                    <th width="120">Acciones</th>
+                    <th width="150">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($estudios as $estudio): ?>
-                <tr>
-                    <td><span class="badge bg-secondary"><?= e($estudio['codigo_interno']) ?></span></td>
-                    <td>
-                        <strong><?= e($estudio['nombre']) ?></strong>
-                        <?php if($estudio['nombre_corto']): ?>
-                            <br><small class="text-muted"><?= e($estudio['nombre_corto']) ?></small>
-                        <?php endif; ?>
-                    </td>
-                    <td><span class="badge bg-info"><?= e($estudio['area_nombre']) ?></span></td>
-                    <td><?= e($estudio['tipo_muestra_nombre']) ?></td>
-                    <td><?= $estudio['dias_proceso'] ?> día<?= $estudio['dias_proceso'] > 1 ? 's' : '' ?></td>
-                    <td>
-                        <?php if($estudio['es_subrogado']): ?>
-                            <span class="badge bg-warning">
-                                <i class="fas fa-share-square"></i> Subrogado
-                            </span>
-                            <?php if($estudio['laboratorio_referencia_nombre']): ?>
-                                <br><small class="text-muted"><?= e($estudio['laboratorio_referencia_nombre']) ?></small>
-                            <?php endif; ?>
-                        <?php else: ?>
-                            <span class="text-muted">-</span>
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if($estudio['activo']): ?>
-                            <span class="badge bg-success">Activo</span>
-                        <?php else: ?>
-                            <span class="badge bg-secondary">Inactivo</span>
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <a href="<?= url('catalogos/estudios/ver/' . $estudio['id']) ?>" 
-                               class="btn btn-info" 
-                               title="Ver">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="<?= url('catalogos/estudios/editar/' . $estudio['id']) ?>" 
-                               class="btn btn-warning" 
-                               title="Editar">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <button type="button" 
-                                    class="btn btn-danger" 
-                                    onclick="eliminarEstudio(<?= $estudio['id'] ?>, '<?= e($estudio['nombre']) ?>')"
-                                    title="Desactivar">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
+                <!-- Cargado dinámicamente con DataTables -->
             </tbody>
         </table>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- CSS adicional para DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
 $(document).ready(function() {
-    $('#tablaEstudios').DataTable({
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-MX.json'
+    // Inicializar DataTable
+    const tabla = $('#tablaEstudios').DataTable({
+        ajax: {
+            url: '<?= url('catalogos/estudios/listar') ?>',
+            dataSrc: 'data'
         },
-        order: [[6, 'desc'], [1, 'asc']],
+        columns: [
+            { 
+                data: 'codigo_interno',
+                render: function(data) {
+                    return '<span class="badge bg-secondary">' + data + '</span>';
+                }
+            },
+            { 
+                data: 'nombre',
+                render: function(data, type, row) {
+                    let html = '<strong>' + data + '</strong>';
+                    if (row.nombre_corto) {
+                        html += '<br><small class="text-muted">' + row.nombre_corto + '</small>';
+                    }
+                    return html;
+                }
+            },
+            { 
+                data: 'area_nombre',
+                render: function(data) {
+                    return '<span class="badge bg-info">' + data + '</span>';
+                }
+            },
+            { 
+                data: 'tipo_muestra_nombre',
+                render: function(data) {
+                    return data || '<span class="text-muted">-</span>';
+                }
+            },
+            { 
+                data: 'dias_proceso',
+                render: function(data) {
+                    return data + ' día(s)';
+                }
+            },
+            { 
+                data: 'es_subrogado',
+                render: function(data, type, row) {
+                    if (data == 1) {
+                        let html = '<span class="badge bg-warning">Sí</span>';
+                        if (row.laboratorio_referencia_nombre) {
+                            html += '<br><small class="text-muted">' + row.laboratorio_referencia_nombre + '</small>';
+                        }
+                        return html;
+                    } else {
+                        return '<span class="badge bg-success">No</span>';
+                    }
+                }
+            },
+            { 
+                data: 'activo',
+                render: function(data) {
+                    if (data == 1) {
+                        return '<span class="badge bg-success">Activo</span>';
+                    } else {
+                        return '<span class="badge bg-secondary">Inactivo</span>';
+                    }
+                }
+            },
+            { 
+                data: null,
+                orderable: false,
+                render: function(data, type, row) {
+                    return `
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a href="<?= url('catalogos/estudios/ver/') ?>${row.id}" 
+                               class="btn btn-info" 
+                               title="Ver detalle">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="<?= url('catalogos/estudios/editar/') ?>${row.id}" 
+                               class="btn btn-warning" 
+                               title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button class="btn btn-danger" 
+                                    onclick="confirmarEliminar(${row.id}, '${row.nombre}')" 
+                                    title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+        ],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+        },
+        responsive: true,
+        order: [[1, 'asc']],
         pageLength: 25
     });
+    
+    // Función para confirmar eliminación
+    window.confirmarEliminar = function(id, nombre) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            html: `¿Deseas desactivar el estudio <strong>${nombre}</strong>?<br><small class="text-muted">Podrás reactivarlo después si es necesario.</small>`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, desactivar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Crear formulario para enviar POST
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '<?= url('catalogos/estudios/eliminar/') ?>' + id;
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    };
 });
-
-function eliminarEstudio(id, nombre) {
-    Swal.fire({
-        title: '¿Desactivar Estudio?',
-        html: `¿Deseas desactivar el estudio <strong>${nombre}</strong>?<br><small class="text-muted">Podrás reactivarlo después si es necesario.</small>`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc3545',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Sí, desactivar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '<?= url('catalogos/estudios/eliminar/') ?>' + id;
-            document.body.appendChild(form);
-            form.submit();
-        }
-    });
-}
 </script>
 
 <style>
@@ -137,9 +191,29 @@ function eliminarEstudio(id, nombre) {
         background-color: #f8f9fa;
         font-weight: 600;
         font-size: 14px;
+        color: #495057;
     }
+    
     .table td {
         vertical-align: middle;
         font-size: 14px;
+    }
+    
+    .dataTables_wrapper .dataTables_length select {
+        padding: 5px 10px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+    }
+    
+    .dataTables_wrapper .dataTables_filter input {
+        padding: 5px 10px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        margin-left: 5px;
+    }
+    
+    .btn-group-sm .btn {
+        padding: 4px 8px;
+        font-size: 12px;
     }
 </style>
