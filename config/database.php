@@ -6,7 +6,7 @@
 
 return [
     'host' => getenv('DB_HOST') ?: 'localhost',
-    'port' => getenv('DB_PORT') ?: 3306,
+    'port' => getenv('DB_PORT') ?: 3305,
     'database' => getenv('DB_NAME') ?: 'laboratorio_clinico',
     'username' => getenv('DB_USER') ?: 'admin',
     'password' => getenv('DB_PASS') ?: 'admin',

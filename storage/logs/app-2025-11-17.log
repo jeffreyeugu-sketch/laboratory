@@ -5,3 +5,11 @@
 [2025-11-17 00:53:49] [ERROR] Error al obtener estadísticas del dashboard: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'laboratorio_clinico.resultados' doesn't exist
 [2025-11-17 01:04:06] [ERROR] Error al obtener estadísticas del dashboard: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'laboratorio_clinico.resultados' doesn't exist
 [2025-11-17 01:16:37] [ERROR] Error al obtener estadísticas del dashboard: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'laboratorio_clinico.resultados' doesn't exist
+[2025-11-17 23:25:16] [ERROR] Error al obtener estadísticas del dashboard: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'laboratorio_clinico.resultados' doesn't exist
+[2025-11-17 23:29:34] [ERROR] Error al obtener estadísticas del dashboard: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'laboratorio_clinico.resultados' doesn't exist
+[2025-11-17 23:30:22] [ERROR] Error al obtener estadísticas del dashboard: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'laboratorio_clinico.resultados' doesn't exist
+[2025-11-17 23:39:46] [ERROR] Error al obtener estadísticas del dashboard: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'laboratorio_clinico.resultados' doesn't exist
+[2025-11-17 23:40:54] [ERROR] Error al obtener estadísticas del dashboard: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'laboratorio_clinico.resultados' doesn't exist
+[2025-11-17 23:43:01] [ERROR] Error al obtener estadísticas del dashboard: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'laboratorio_clinico.resultados' doesn't exist
+[2025-11-17 23:44:47] [ERROR] Error al obtener estadísticas del dashboard: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'laboratorio_clinico.resultados' doesn't exist
+[2025-11-17 23:44:54] [ERROR] Error al obtener estadísticas del dashboard: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'laboratorio_clinico.resultados' doesn't exist

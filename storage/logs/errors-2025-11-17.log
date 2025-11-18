@@ -14,3 +14,7 @@
 [2025-11-17 01:15:58] [ERROR] Error al crear paciente: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'expediente' cannot be null
 [2025-11-17 01:16:06] [ERROR] Error al crear paciente: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'expediente' cannot be null
 [2025-11-17 01:16:06] [ERROR] Error al crear paciente: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'expediente' cannot be null
+[2025-11-17 23:32:24] [ERROR] Error al crear paciente: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'expediente' cannot be null
+[2025-11-17 23:32:24] [ERROR] Error al crear paciente: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'expediente' cannot be null
+[2025-11-17 23:42:42] [ERROR] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tipo_entidad' in 'INSERT INTO'
+[2025-11-17 23:44:33] [ERROR] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tipo_entidad' in 'INSERT INTO'

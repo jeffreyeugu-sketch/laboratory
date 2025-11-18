@@ -123,8 +123,12 @@ class PacienteController extends Controller {
                 redirect('pacientes/crear');
             }
             
+            // Generar número de expediente
+            $expediente = $this->pacienteModel->generarExpediente();
+
             // Preparar datos
             $datos = [
+                'expediente' => $expediente,  // ← AGREGAR ESTA LÍNEA
                 'nombres' => trim($_POST['nombres']),
                 'apellido_paterno' => trim($_POST['apellido_paterno']),
                 'apellido_materno' => trim($_POST['apellido_materno'] ?? ''),

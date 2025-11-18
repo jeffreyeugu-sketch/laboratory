@@ -475,3 +475,39 @@ Stack trace:
 [17-Nov-2025 01:16:06 America/Mexico_City] PHP Warning:  Undefined array key "expediente" in C:\xampp\htdocs\laboratorio-clinico\models\Paciente.php on line 135
 [17-Nov-2025 01:16:37 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
 [17-Nov-2025 01:16:39 America/Mexico_City] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'descripcion' in 'INSERT INTO'
+[17-Nov-2025 23:25:16 America/Mexico_City] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'descripcion' in 'INSERT INTO'
+[17-Nov-2025 23:25:16 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "estado_civil" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 94
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "estado_civil" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 95
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "estado_civil" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 96
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "estado_civil" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 97
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "estado_civil" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 98
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "curp" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 107
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "calle" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 165
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "numero_exterior" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 173
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "numero_interior" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 181
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "colonia" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 189
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "nombre_contacto_emergencia" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 233
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "telefono_contacto_emergencia" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 241
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "parentesco_contacto_emergencia" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 248
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "parentesco_contacto_emergencia" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 249
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "parentesco_contacto_emergencia" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 250
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "parentesco_contacto_emergencia" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 251
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "parentesco_contacto_emergencia" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 252
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "parentesco_contacto_emergencia" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 253
+[17-Nov-2025 23:25:45 America/Mexico_City] PHP Warning:  Undefined array key "observaciones" in C:\xampp\htdocs\laboratorio-clinico\views\pacientes\editar.php on line 271
+[17-Nov-2025 23:29:34 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[17-Nov-2025 23:30:22 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[17-Nov-2025 23:30:23 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method OrdenController::requireAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php:29
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(172): OrdenController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(189): executeRoute('OrdenController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php on line 29
+[17-Nov-2025 23:32:24 America/Mexico_City] PHP Warning:  Undefined array key "expediente" in C:\xampp\htdocs\laboratorio-clinico\models\Paciente.php on line 135
+[17-Nov-2025 23:39:46 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[17-Nov-2025 23:39:47 America/Mexico_City] PHP Parse error:  syntax error, unexpected variable "$datos" in C:\xampp\htdocs\laboratorio-clinico\controllers\PacienteController.php on line 137
+[17-Nov-2025 23:40:54 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[17-Nov-2025 23:43:01 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[17-Nov-2025 23:44:47 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[17-Nov-2025 23:44:54 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
