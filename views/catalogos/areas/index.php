@@ -39,6 +39,17 @@
             </a>
         </div>
     </div>
+
+    <!-- Mensaje Flash -->
+    <?php if (isset($_SESSION['flash_message'])): ?>
+    <div class="alert alert-<?= $_SESSION['flash_type'] ?? 'info' ?> alert-dismissible fade show" role="alert">
+        <?= $_SESSION['flash_message'] ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <?php 
+        unset($_SESSION['flash_message'], $_SESSION['flash_type']);
+    endif; 
+    ?>
     
     <!-- Tarjeta con Tabla -->
     <div class="card shadow-sm">
@@ -57,13 +68,13 @@
                             <th width="8%">ID</th>
                             <th width="15%">Código</th>
                             <th width="25%">Nombre</th>
-                            <th width="30%">Descripción</th>
+                            <th width="32%">Descripción</th>
                             <th width="10%">Estado</th>
-                            <th width="12%">Acciones</th>
+                            <th width="10%">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- DataTables cargará los datos vía AJAX -->
+                        <!-- DataTables cargará los datos aquí -->
                     </tbody>
                 </table>
             </div>
@@ -73,23 +84,23 @@
     
 </div>
 
-<!-- Scripts -->
+<!-- Script de DataTables -->
 <script>
 $(document).ready(function() {
     
-    // Inicializar DataTable
+    // Inicializar DataTables
     const tabla = $('#tablaAreas').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
             url: '<?= url('/catalogos/areas/listar') ?>',
-            type: 'GET',
-            error: function(xhr, error, thrown) {
-                console.error('Error en DataTables:', error, thrown);
+            type: 'POST',
+            error: function(xhr, error, code) {
+                console.error('Error al cargar datos:', error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'No se pudieron cargar los datos. Verifica la consola.'
+                    text: 'No se pudieron cargar los datos. Revisa la consola.'
                 });
             }
         },
@@ -98,27 +109,25 @@ $(document).ready(function() {
             { data: 'codigo' },
             { data: 'nombre' },
             { data: 'descripcion' },
-            { data: 'activo', orderable: false },
+            { data: 'activo' },
             { data: 'acciones', orderable: false, searchable: false }
         ],
+        order: [[0, 'desc']],
         language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-MX.json'
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
         },
-        order: [[1, 'asc']], // Ordenar por código
         pageLength: 25,
-        responsive: true,
-        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rtip'
+        lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]]
     });
     
-    // Manejar eliminación
+    // Evento para eliminar área
     $('#tablaAreas').on('click', '.btn-eliminar', function() {
         const areaId = $(this).data('id');
         const areaNombre = $(this).data('nombre');
         
         Swal.fire({
-            title: '¿Está seguro?',
-            html: `¿Desea eliminar el área <strong>${areaNombre}</strong>?<br><br>
-                   <small class="text-muted">Si tiene estudios relacionados, solo se desactivará.</small>`,
+            title: '¿Estás seguro?',
+            html: `Se eliminará el área:<br><strong>${areaNombre}</strong>`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -127,47 +136,43 @@ $(document).ready(function() {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = '<?= url('/catalogos/areas/eliminar/') ?>' + areaId;
+                // Enviar petición de eliminación
+                fetch('<?= url('/catalogos/areas/eliminar/') ?>' + areaId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Eliminado',
+                            text: data.message,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        tabla.ajax.reload(); // Recargar tabla
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se pudo eliminar el área'
+                    });
+                });
             }
         });
     });
     
-    // Mostrar mensajes flash
-    <?php if (isset($_SESSION['flash_message'])): ?>
-        Swal.fire({
-            icon: '<?= $_SESSION['flash_type'] ?? 'info' ?>',
-            title: '<?= $_SESSION['flash_type'] === 'success' ? 'Éxito' : 'Aviso' ?>',
-            text: '<?= addslashes($_SESSION['flash_message']) ?>',
-            timer: 3000,
-            showConfirmButton: false
-        });
-        <?php 
-            unset($_SESSION['flash_message']);
-            unset($_SESSION['flash_type']);
-        ?>
-    <?php endif; ?>
 });
 </script>
-
-<style>
-/* Estilos adicionales */
-.card {
-    border: none;
-    border-radius: 10px;
-}
-
-.table thead th {
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.btn-group-sm > .btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-}
-
-.badge {
-    padding: 0.35rem 0.65rem;
-    font-weight: 500;
-}
-</style>

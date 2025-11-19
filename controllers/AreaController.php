@@ -25,6 +25,7 @@ class AreaController extends Controller
     {
         if (!Auth::check()) {
             redirect('/login');
+            exit;
         }
     }
     
@@ -50,8 +51,13 @@ class AreaController extends Controller
         $this->verificarAuth();
         
         $data = [
-            'title' => 'Nueva Área'
+            'title' => 'Nueva Área',
+            'errores' => $_SESSION['errores'] ?? [],
+            'old' => $_SESSION['old'] ?? []
         ];
+        
+        // Limpiar sesión
+        unset($_SESSION['errores'], $_SESSION['old']);
         
         $this->view('catalogos/areas/crear', $data);
     }
@@ -65,7 +71,7 @@ class AreaController extends Controller
         
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             redirect('/catalogos/areas');
-            return;
+            exit;
         }
         
         try {
@@ -76,12 +82,12 @@ class AreaController extends Controller
                 $_SESSION['errores'] = $errores;
                 $_SESSION['old'] = $_POST;
                 redirect('/catalogos/areas/crear');
-                return;
+                exit;
             }
             
             // Preparar datos
             $datos = [
-                'codigo' => trim($_POST['codigo']),
+                'codigo' => strtoupper(trim($_POST['codigo'])),
                 'nombre' => trim($_POST['nombre']),
                 'descripcion' => trim($_POST['descripcion'] ?? ''),
                 'activo' => isset($_POST['activo']) ? 1 : 0
@@ -94,6 +100,7 @@ class AreaController extends Controller
                 $_SESSION['flash_message'] = 'Área creada exitosamente';
                 $_SESSION['flash_type'] = 'success';
                 redirect('/catalogos/areas');
+                exit;
             } else {
                 throw new Exception('Error al crear el área');
             }
@@ -103,6 +110,7 @@ class AreaController extends Controller
             $_SESSION['flash_type'] = 'danger';
             $_SESSION['old'] = $_POST;
             redirect('/catalogos/areas/crear');
+            exit;
         }
     }
     
@@ -119,13 +127,18 @@ class AreaController extends Controller
             $_SESSION['flash_message'] = 'Área no encontrada';
             $_SESSION['flash_type'] = 'danger';
             redirect('/catalogos/areas');
-            return;
+            exit;
         }
         
         $data = [
             'title' => 'Editar Área',
-            'area' => $area
+            'area' => $area,
+            'errores' => $_SESSION['errores'] ?? [],
+            'old' => $_SESSION['old'] ?? []
         ];
+        
+        // Limpiar sesión
+        unset($_SESSION['errores'], $_SESSION['old']);
         
         $this->view('catalogos/areas/editar', $data);
     }
@@ -139,7 +152,7 @@ class AreaController extends Controller
         
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             redirect('/catalogos/areas');
-            return;
+            exit;
         }
         
         try {
@@ -156,12 +169,12 @@ class AreaController extends Controller
                 $_SESSION['errores'] = $errores;
                 $_SESSION['old'] = $_POST;
                 redirect('/catalogos/areas/editar/' . $id);
-                return;
+                exit;
             }
             
             // Preparar datos
             $datos = [
-                'codigo' => trim($_POST['codigo']),
+                'codigo' => strtoupper(trim($_POST['codigo'])),
                 'nombre' => trim($_POST['nombre']),
                 'descripcion' => trim($_POST['descripcion'] ?? ''),
                 'activo' => isset($_POST['activo']) ? 1 : 0
@@ -174,6 +187,7 @@ class AreaController extends Controller
                 $_SESSION['flash_message'] = 'Área actualizada exitosamente';
                 $_SESSION['flash_type'] = 'success';
                 redirect('/catalogos/areas');
+                exit;
             } else {
                 throw new Exception('Error al actualizar el área');
             }
@@ -183,92 +197,106 @@ class AreaController extends Controller
             $_SESSION['flash_type'] = 'danger';
             $_SESSION['old'] = $_POST;
             redirect('/catalogos/areas/editar/' . $id);
+            exit;
         }
     }
     
     /**
-     * Eliminar (desactivar) área
+     * Eliminar área
      */
     public function eliminar($id)
     {
         $this->verificarAuth();
         
+        header('Content-Type: application/json');
+        
         try {
             $area = $this->areaModel->obtenerPorId($id);
             
             if (!$area) {
-                throw new Exception('Área no encontrada');
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Área no encontrada'
+                ]);
+                exit;
             }
             
             // Verificar si tiene estudios relacionados
             $tieneEstudios = $this->areaModel->tieneEstudiosRelacionados($id);
             
             if ($tieneEstudios) {
-                // Solo desactivar, no eliminar
-                $resultado = $this->areaModel->actualizar($id, ['activo' => 0]);
-                $mensaje = 'Área desactivada (tiene estudios relacionados)';
+                // No eliminar, solo desactivar
+                $resultado = $this->areaModel->desactivar($id);
+                
+                if ($resultado) {
+                    echo json_encode([
+                        'success' => true,
+                        'message' => 'El área tiene estudios relacionados, se desactivó en lugar de eliminar'
+                    ]);
+                } else {
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'No se pudo desactivar el área'
+                    ]);
+                }
             } else {
-                // Eliminar permanentemente
+                // Sí puede eliminar
                 $resultado = $this->areaModel->eliminar($id);
-                $mensaje = 'Área eliminada exitosamente';
-            }
-            
-            if ($resultado) {
-                $_SESSION['flash_message'] = $mensaje;
-                $_SESSION['flash_type'] = 'success';
-            } else {
-                throw new Exception('Error al eliminar el área');
+                
+                if ($resultado) {
+                    echo json_encode([
+                        'success' => true,
+                        'message' => 'Área eliminada exitosamente'
+                    ]);
+                } else {
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'No se pudo eliminar el área'
+                    ]);
+                }
             }
             
         } catch (Exception $e) {
-            $_SESSION['flash_message'] = 'Error: ' . $e->getMessage();
-            $_SESSION['flash_type'] = 'danger';
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ]);
         }
         
-        redirect('/catalogos/areas');
+        exit;
     }
     
     /**
-     * API para DataTables
+     * Listar áreas para DataTables (AJAX)
      */
     public function listar()
     {
         $this->verificarAuth();
         
         try {
-            // Parámetros de DataTables
-            $draw = $_GET['draw'] ?? 1;
-            $start = $_GET['start'] ?? 0;
-            $length = $_GET['length'] ?? 10;
-            $searchValue = $_GET['search']['value'] ?? '';
-            $orderColumn = $_GET['order'][0]['column'] ?? 0;
-            $orderDir = $_GET['order'][0]['dir'] ?? 'asc';
+            $draw = $_POST['draw'] ?? 1;
+            $start = $_POST['start'] ?? 0;
+            $length = $_POST['length'] ?? 25;
+            $searchValue = $_POST['search']['value'] ?? '';
+            $orderColumn = $_POST['order'][0]['column'] ?? 0;
+            $orderDir = $_POST['order'][0]['dir'] ?? 'DESC';
             
-            // Columnas disponibles para ordenar
             $columnas = ['id', 'codigo', 'nombre', 'descripcion', 'activo'];
             $orderBy = $columnas[$orderColumn] ?? 'id';
             
             // Obtener datos
-            $filtros = [
-                'search' => $searchValue,
-                'order_by' => $orderBy,
-                'order_dir' => $orderDir,
-                'limit' => $length,
-                'offset' => $start
-            ];
-            
-            $areas = $this->areaModel->listar($filtros);
-            $totalFiltrados = $this->areaModel->contarFiltrados($filtros);
+            $areas = $this->areaModel->listar($start, $length, $searchValue, $orderBy, $orderDir);
             $totalRegistros = $this->areaModel->contarTotal();
+            $totalFiltrados = $this->areaModel->contarFiltrados($searchValue);
             
             // Formatear datos para DataTables
             $data = [];
             foreach ($areas as $area) {
                 $data[] = [
                     'id' => $area['id'],
-                    'codigo' => htmlspecialchars($area['codigo']),
-                    'nombre' => htmlspecialchars($area['nombre']),
-                    'descripcion' => htmlspecialchars($area['descripcion'] ?? ''),
+                    'codigo' => $area['codigo'],
+                    'nombre' => $area['nombre'],
+                    'descripcion' => substr($area['descripcion'] ?? '', 0, 100) . (strlen($area['descripcion'] ?? '') > 100 ? '...' : ''),
                     'activo' => $area['activo'] ? 
                         '<span class="badge bg-success">Activo</span>' : 
                         '<span class="badge bg-secondary">Inactivo</span>',
@@ -285,15 +313,19 @@ class AreaController extends Controller
             
             header('Content-Type: application/json');
             echo json_encode($response);
-            exit;
             
         } catch (Exception $e) {
             header('Content-Type: application/json');
             echo json_encode([
+                'draw' => 1,
+                'recordsTotal' => 0,
+                'recordsFiltered' => 0,
+                'data' => [],
                 'error' => $e->getMessage()
             ]);
-            exit;
         }
+        
+        exit;
     }
     
     /**
@@ -310,7 +342,7 @@ class AreaController extends Controller
             $errores['codigo'] = 'El código no puede tener más de 20 caracteres';
         } else {
             // Verificar código único
-            $existe = $this->areaModel->existeCodigo($datos['codigo'], $idExcluir);
+            $existe = $this->areaModel->existeCodigo(strtoupper(trim($datos['codigo'])), $idExcluir);
             if ($existe) {
                 $errores['codigo'] = 'El código ya está en uso';
             }
@@ -336,7 +368,6 @@ class AreaController extends Controller
      */
     private function generarBotonesAccion($area)
     {
-        // Escapar el nombre para uso en atributos HTML
         $nombreEscapado = htmlspecialchars($area['nombre'], ENT_QUOTES, 'UTF-8');
         
         $html = '<div class="btn-group btn-group-sm" role="group">';

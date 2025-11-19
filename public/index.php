@@ -212,6 +212,9 @@ $dynamicRoutes = [
     '/catalogos/areas/editar/' => ['controller' => 'AreaController', 'method' => 'editar'],
     '/catalogos/areas/actualizar/' => ['controller' => 'AreaController', 'method' => 'actualizar'],
     '/catalogos/areas/eliminar/' => ['controller' => 'AreaController', 'method' => 'eliminar'],
+    '/catalogos/areas/editar/(\d+)' => ['controller' => 'AreaController', 'method' => 'editar'],
+    '/catalogos/areas/actualizar/(\d+)' => ['controller' => 'AreaController', 'method' => 'actualizar'],
+    '/catalogos/areas/eliminar/(\d+)' => ['controller' => 'AreaController', 'method' => 'eliminar'],
 
     // Laboratorios de Referencia con ID
     '/catalogos/laboratorios-referencia/ver/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'ver'],
