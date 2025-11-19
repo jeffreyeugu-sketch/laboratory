@@ -305,6 +305,7 @@
 </head>
 <body>
     <!-- Sidebar -->
+    <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
             <i class="fas fa-flask fa-3x"></i>
@@ -313,26 +314,31 @@
         </div>
         
         <div class="sidebar-menu">
+            <!-- Dashboard -->
             <a href="<?= url('dashboard') ?>" class="<?= currentUrl() == 'dashboard' ? 'active' : '' ?>">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
             
+            <!-- Pacientes -->
             <a href="<?= url('pacientes') ?>" class="<?= strpos(currentUrl(), 'pacientes') !== false ? 'active' : '' ?>">
                 <i class="fas fa-users"></i>
                 <span>Pacientes</span>
             </a>
             
+            <!-- Órdenes -->
             <a href="<?= url('ordenes') ?>" class="<?= strpos(currentUrl(), 'ordenes') !== false ? 'active' : '' ?>">
                 <i class="fas fa-file-medical"></i>
                 <span>Órdenes</span>
             </a>
             
+            <!-- Resultados -->
             <a href="<?= url('resultados') ?>" class="<?= strpos(currentUrl(), 'resultados') !== false ? 'active' : '' ?>">
                 <i class="fas fa-vial"></i>
                 <span>Resultados</span>
             </a>
             
+            <!-- Pagos -->
             <a href="<?= url('pagos') ?>" class="<?= strpos(currentUrl(), 'pagos') !== false ? 'active' : '' ?>">
                 <i class="fas fa-dollar-sign"></i>
                 <span>Pagos</span>
@@ -340,22 +346,169 @@
             
             <hr>
             
-            <a href="<?= url('catalogos/estudios') ?>" class="<?= strpos(currentUrl(), 'catalogos') !== false ? 'active' : '' ?>">
-                <i class="fas fa-flask"></i>
-                <span>Catálogos</span>
-            </a>
+            <!-- Catálogos (Menú Desplegable) -->
+            <div class="menu-item-dropdown <?= strpos(currentUrl(), 'catalogos') !== false ? 'active' : '' ?>">
+                <a href="#" class="menu-toggle" onclick="toggleSubmenu(event, this)">
+                    <i class="fas fa-flask"></i>
+                    <span>Catálogos</span>
+                    <i class="fas fa-chevron-down dropdown-icon"></i>
+                </a>
+                <div class="submenu <?= strpos(currentUrl(), 'catalogos') !== false ? 'show' : '' ?>">
+                    <a href="<?= url('catalogos/estudios') ?>" class="<?= strpos(currentUrl(), 'catalogos/estudios') !== false ? 'active' : '' ?>">
+                        <i class="fas fa-circle submenu-bullet"></i>
+                        <span>Estudios</span>
+                    </a>
+                    <a href="<?= url('catalogos/areas') ?>" class="<?= strpos(currentUrl(), 'catalogos/areas') !== false ? 'active' : '' ?>">
+                        <i class="fas fa-circle submenu-bullet"></i>
+                        <span>Áreas</span>
+                    </a>
+                    <a href="<?= url('catalogos/tipos-muestra') ?>" class="<?= strpos(currentUrl(), 'catalogos/tipos-muestra') !== false ? 'active' : '' ?>">
+                        <i class="fas fa-circle submenu-bullet"></i>
+                        <span>Tipos de Muestra</span>
+                    </a>
+                    <a href="<?= url('catalogos/metodologias') ?>" class="<?= strpos(currentUrl(), 'catalogos/metodologias') !== false ? 'active' : '' ?>">
+                        <i class="fas fa-circle submenu-bullet"></i>
+                        <span>Metodologías</span>
+                    </a>
+                    <a href="<?= url('catalogos/departamentos') ?>" class="<?= strpos(currentUrl(), 'catalogos/departamentos') !== false ? 'active' : '' ?>">
+                        <i class="fas fa-circle submenu-bullet"></i>
+                        <span>Departamentos</span>
+                    </a>
+                    <a href="<?= url('catalogos/laboratorios-referencia') ?>" class="<?= strpos(currentUrl(), 'catalogos/laboratorios-referencia') !== false ? 'active' : '' ?>">
+                        <i class="fas fa-circle submenu-bullet"></i>
+                        <span>Labs. Referencia</span>
+                    </a>
+                    <a href="<?= url('catalogos/indicaciones') ?>" class="<?= strpos(currentUrl(), 'catalogos/indicaciones') !== false ? 'active' : '' ?>">
+                        <i class="fas fa-circle submenu-bullet"></i>
+                        <span>Indicaciones</span>
+                    </a>
+                    <a href="<?= url('catalogos/etiquetas') ?>" class="<?= strpos(currentUrl(), 'catalogos/etiquetas') !== false ? 'active' : '' ?>">
+                        <i class="fas fa-circle submenu-bullet"></i>
+                        <span>Etiquetas</span>
+                    </a>
+                </div>
+            </div>
             
+            <hr>
+            
+            <!-- Usuarios -->
             <a href="<?= url('usuarios') ?>" class="<?= strpos(currentUrl(), 'usuarios') !== false ? 'active' : '' ?>">
                 <i class="fas fa-user-cog"></i>
                 <span>Usuarios</span>
             </a>
             
+            <!-- Reportes -->
             <a href="<?= url('reportes') ?>" class="<?= strpos(currentUrl(), 'reportes') !== false ? 'active' : '' ?>">
                 <i class="fas fa-chart-bar"></i>
                 <span>Reportes</span>
             </a>
         </div>
     </div>
+
+    <style>
+    /* Estilos para menú desplegable */
+    .menu-item-dropdown {
+        position: relative;
+    }
+
+    .menu-item-dropdown > a.menu-toggle {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        color: rgba(255,255,255,0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+        cursor: pointer;
+    }
+
+    .menu-item-dropdown > a.menu-toggle:hover {
+        background: rgba(255,255,255,0.1);
+        color: white;
+        border-left-color: var(--primary-color);
+    }
+
+    .menu-item-dropdown.active > a.menu-toggle {
+        background: rgba(37, 99, 235, 0.2);
+        color: white;
+        border-left-color: var(--primary-color);
+    }
+
+    .menu-toggle .dropdown-icon {
+        margin-left: auto;
+        transition: transform 0.3s ease;
+        font-size: 12px;
+    }
+
+    .menu-item-dropdown.open .dropdown-icon {
+        transform: rotate(180deg);
+    }
+
+    .submenu {
+        max-height: 0;
+        overflow: hidden;
+        background: rgba(0,0,0,0.2);
+        transition: max-height 0.3s ease;
+    }
+
+    .submenu.show {
+        max-height: 500px;
+    }
+
+    .submenu a {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px 10px 50px;
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 14px;
+    }
+
+    .submenu a:hover {
+        background: rgba(255,255,255,0.1);
+        color: white;
+        padding-left: 55px;
+    }
+
+    .submenu a.active {
+        background: rgba(37, 99, 235, 0.3);
+        color: white;
+        font-weight: 500;
+    }
+
+    .submenu-bullet {
+        font-size: 6px;
+        margin-right: 12px;
+    }
+    </style>
+
+    <script>
+    function toggleSubmenu(event, element) {
+        event.preventDefault();
+        
+        const parent = element.parentElement;
+        const submenu = parent.querySelector('.submenu');
+        
+        // Toggle clase 'open' en el contenedor
+        parent.classList.toggle('open');
+        
+        // Toggle clase 'show' en el submenu
+        submenu.classList.toggle('show');
+    }
+
+    // Auto-abrir submenú si estamos en una página de catálogos
+    document.addEventListener('DOMContentLoaded', function() {
+        const activeDropdown = document.querySelector('.menu-item-dropdown.active');
+        if (activeDropdown) {
+            activeDropdown.classList.add('open');
+            const submenu = activeDropdown.querySelector('.submenu');
+            if (submenu) {
+                submenu.classList.add('show');
+            }
+        }
+    });
+    </script>
     
     <!-- Main Content -->
     <div class="main-content">

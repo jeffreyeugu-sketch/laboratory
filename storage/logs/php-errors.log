@@ -587,3 +587,195 @@ Stack trace:
 #2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('EstudioControll...', 'ver', Array)
 #3 {main}
   thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 15:59:15 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 18:58:34 America/Mexico_City] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tabla' in 'INSERT INTO'
+[18-Nov-2025 18:58:34 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:01:11 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method AreaController::checkAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:27
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 27
+[18-Nov-2025 19:01:42 America/Mexico_City] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tabla' in 'INSERT INTO'
+[18-Nov-2025 19:01:42 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:01:54 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:03:51 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:08:41 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:08:54 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:08:59 America/Mexico_City] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tabla' in 'INSERT INTO'
+[18-Nov-2025 19:09:04 America/Mexico_City] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tabla' in 'INSERT INTO'
+[18-Nov-2025 19:09:04 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:10:26 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method AreaController::checkAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:27
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 27
+[18-Nov-2025 19:13:09 America/Mexico_City] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tabla' in 'INSERT INTO'
+[18-Nov-2025 19:13:09 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:13:44 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method ResultadoController::requireAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\ResultadoController.php:29
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): ResultadoController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('ResultadoContro...', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\ResultadoController.php on line 29
+[18-Nov-2025 19:13:46 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method OrdenController::requireAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php:29
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): OrdenController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('OrdenController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php on line 29
+[18-Nov-2025 19:21:30 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:21:32 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:21:33 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:21:38 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method AreaController::checkAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:27
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 27
+[18-Nov-2025 19:21:45 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:22:13 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method AreaController::checkAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:27
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 27
+[18-Nov-2025 19:26:17 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:26:19 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerTodos() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:43
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 43
+[18-Nov-2025 19:26:30 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerTodos() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:43
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 43
+[18-Nov-2025 19:26:31 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerTodos() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:43
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 43
+[18-Nov-2025 19:26:32 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerTodos() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:43
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 43
+[18-Nov-2025 19:26:32 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerTodos() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:43
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 43
+[18-Nov-2025 19:26:32 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerTodos() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:43
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 43
+[18-Nov-2025 19:26:32 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerTodos() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:43
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 43
+[18-Nov-2025 19:26:32 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerTodos() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:43
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 43
+[18-Nov-2025 19:28:21 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:28:36 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 19:28:36 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\EstudioController.php(268): Controller->view('catalogos/estud...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): EstudioController->ver('1')
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('EstudioControll...', 'ver', Array)
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 19:34:41 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:35:01 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:35:02 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:35:07 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:35:10 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:35:13 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:39:20 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:39:24 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:39:29 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:39:38 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:39:53 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:39:58 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:41:31 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:41:52 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:43:05 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:45:56 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:45:57 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:46:15 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:119
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): AreaController->editar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 119
+[18-Nov-2025 19:46:24 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 19:49:22 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:119
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): AreaController->editar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 119
+[18-Nov-2025 19:49:48 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 19:49:48 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\EstudioController.php(268): Controller->view('catalogos/estud...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): EstudioController->ver('1')
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('EstudioControll...', 'ver', Array)
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 19:56:09 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:119
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): AreaController->editar('3')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 119
+[18-Nov-2025 19:58:20 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:200
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): AreaController->eliminar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('AreaController', 'eliminar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 200
+[18-Nov-2025 20:00:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:119
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): AreaController->editar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 119
+[18-Nov-2025 20:01:03 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:119
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): AreaController->editar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 119
+[18-Nov-2025 20:01:16 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:119
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): AreaController->editar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 119
+[18-Nov-2025 20:04:11 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:119
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): AreaController->editar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 119
+[18-Nov-2025 20:04:17 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:119
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): AreaController->editar('3')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 119

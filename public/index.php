@@ -128,6 +128,12 @@ $routes = [
     '/catalogos/estudios/guardar' => ['controller' => 'EstudioController', 'method' => 'guardar'],
     '/catalogos/estudios/listar' => ['controller' => 'EstudioController', 'method' => 'listar'],
     
+    // CATÁLOGO: ÁREAS
+    '/catalogos/areas' => ['controller' => 'AreaController', 'method' => 'index'],
+    '/catalogos/areas/crear' => ['controller' => 'AreaController', 'method' => 'crear'],
+    '/catalogos/areas/guardar' => ['controller' => 'AreaController', 'method' => 'guardar'],
+    '/catalogos/areas/listar' => ['controller' => 'AreaController', 'method' => 'listar'],
+
     // CATÁLOGO: LABORATORIOS DE REFERENCIA
     '/catalogos/laboratorios-referencia' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'index'],
     '/catalogos/laboratorios-referencia/crear' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'crear'],
@@ -202,6 +208,11 @@ $dynamicRoutes = [
     '/catalogos/estudios/eliminar/' => ['controller' => 'EstudioController', 'method' => 'eliminar'],
     '/catalogos/estudios/cambiar-estado/' => ['controller' => 'EstudioController', 'method' => 'cambiarEstado'],
     
+    // Áreas con ID
+    '/catalogos/areas/editar/' => ['controller' => 'AreaController', 'method' => 'editar'],
+    '/catalogos/areas/actualizar/' => ['controller' => 'AreaController', 'method' => 'actualizar'],
+    '/catalogos/areas/eliminar/' => ['controller' => 'AreaController', 'method' => 'eliminar'],
+
     // Laboratorios de Referencia con ID
     '/catalogos/laboratorios-referencia/ver/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'ver'],
     '/catalogos/laboratorios-referencia/editar/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'editar'],

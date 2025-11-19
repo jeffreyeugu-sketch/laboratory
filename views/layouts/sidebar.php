@@ -1,298 +1,308 @@
-<!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-light-primary elevation-1">
-    <!-- Brand Logo -->
-    <a href="<?= BASE_URL ?>/dashboard" class="brand-link text-center">
-        <img src="<?= BASE_URL ?>/assets/img/logo.png" 
-             alt="Logo" 
-             class="brand-image"
-             style="max-height: 40px;">
-        <span class="brand-text font-weight-bold d-block">Laboratorio Clínico</span>
-    </a>
+<?php
+/**
+ * Sidebar - Menú lateral del sistema
+ * Incluye navegación a todos los módulos
+ */
 
+$currentUri = $_SERVER['REQUEST_URI'];
+$currentPath = parse_url($currentUri, PHP_URL_PATH);
+
+// Función helper para determinar si un menú está activo
+function isActive($path, $currentPath) {
+    return strpos($currentPath, $path) !== false ? 'active' : '';
+}
+
+function isMenuOpen($paths, $currentPath) {
+    foreach ($paths as $path) {
+        if (strpos($currentPath, $path) !== false) {
+            return 'menu-open';
+        }
+    }
+    return '';
+}
+?>
+
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    
+    <!-- Brand Logo -->
+    <a href="<?= base_url('/dashboard') ?>" class="brand-link">
+        <i class="fas fa-flask brand-image"></i>
+        <span class="brand-text font-weight-light">Lab Clínico</span>
+    </a>
+    
     <!-- Sidebar -->
     <div class="sidebar">
+        
+        <!-- User Panel -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <i class="fas fa-user-circle fa-2x text-white"></i>
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">
+                    <?= htmlspecialchars($_SESSION['user']['nombre'] ?? 'Usuario') ?>
+                </a>
+                <small class="text-muted">
+                    <?= htmlspecialchars($_SESSION['user']['rol_nombre'] ?? 'Sin rol') ?>
+                </small>
+            </div>
+        </div>
+        
         <!-- Sidebar Menu -->
-        <nav class="mt-3">
-            <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu">
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
                 
                 <!-- Dashboard -->
                 <li class="nav-item">
-                    <a href="<?= BASE_URL ?>/dashboard" class="nav-link <?= isActive('dashboard') ?>">
+                    <a href="<?= base_url('/dashboard') ?>" 
+                       class="nav-link <?= isActive('/dashboard', $currentPath) ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-
-                <!-- Recepción -->
-                <li class="nav-header">RECEPCIÓN</li>
                 
+                <!-- Separador -->
+                <li class="nav-header">OPERACIONES</li>
+                
+                <!-- Pacientes -->
                 <li class="nav-item">
-                    <a href="<?= BASE_URL ?>/pacientes" class="nav-link <?= isActive('pacientes') ?>">
+                    <a href="<?= base_url('/pacientes') ?>" 
+                       class="nav-link <?= isActive('/pacientes', $currentPath) ?>">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Pacientes</p>
                     </a>
                 </li>
-
-                <li class="nav-item <?= hasActiveChild(['ordenes']) ? 'menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= isActive('ordenes') ?>">
+                
+                <!-- Órdenes -->
+                <li class="nav-item">
+                    <a href="<?= base_url('/ordenes') ?>" 
+                       class="nav-link <?= isActive('/ordenes', $currentPath) ?>">
                         <i class="nav-icon fas fa-file-medical"></i>
                         <p>
                             Órdenes
-                            <i class="right fas fa-angle-left"></i>
+                            <span class="badge badge-info right">Pronto</span>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/ordenes/crear" class="nav-link <?= isActive('ordenes/crear') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Nueva Orden</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/ordenes" class="nav-link <?= isActive('ordenes', 'index') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Lista de Órdenes</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/ordenes/buscar" class="nav-link <?= isActive('ordenes/buscar') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Buscar Orden</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-
-                <!-- Laboratorio -->
-                <li class="nav-header">LABORATORIO</li>
-
-                <li class="nav-item <?= hasActiveChild(['resultados']) ? 'menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= isActive('resultados') ?>">
-                        <i class="nav-icon fas fa-flask"></i>
+                
+                <!-- Resultados -->
+                <li class="nav-item">
+                    <a href="<?= base_url('/resultados') ?>" 
+                       class="nav-link <?= isActive('/resultados', $currentPath) ?>">
+                        <i class="nav-icon fas fa-microscope"></i>
                         <p>
                             Resultados
-                            <i class="right fas fa-angle-left"></i>
+                            <span class="badge badge-info right">Pronto</span>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/resultados/lista" class="nav-link <?= isActive('resultados/lista') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Lista de Trabajo</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/resultados/capturar" class="nav-link <?= isActive('resultados/capturar') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Capturar Resultados</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/resultados/validar" class="nav-link <?= isActive('resultados/validar') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Validación Técnica</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/resultados/liberar" class="nav-link <?= isActive('resultados/liberar') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Liberación Médica</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/resultados/microbiologia" class="nav-link <?= isActive('resultados/microbiologia') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Microbiología</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-
-                <!-- Caja -->
-                <li class="nav-header">CAJA</li>
-
-                <li class="nav-item <?= hasActiveChild(['pagos']) ? 'menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= isActive('pagos') ?>">
-                        <i class="nav-icon fas fa-cash-register"></i>
-                        <p>
-                            Pagos
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/pagos/registrar" class="nav-link <?= isActive('pagos/registrar') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Registrar Pago</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/pagos/corte" class="nav-link <?= isActive('pagos/corte') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Corte de Caja</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/pagos/historial" class="nav-link <?= isActive('pagos/historial') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Historial de Pagos</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- Reportes -->
-                <li class="nav-header">REPORTES</li>
-
-                <li class="nav-item <?= hasActiveChild(['reportes']) ? 'menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= isActive('reportes') ?>">
-                        <i class="nav-icon fas fa-chart-bar"></i>
-                        <p>
-                            Reportes
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/reportes/produccion" class="nav-link <?= isActive('reportes/produccion') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Producción</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/reportes/ingresos" class="nav-link <?= isActive('reportes/ingresos') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Ingresos</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/reportes/estudios" class="nav-link <?= isActive('reportes/estudios') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Por Estudios</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/reportes/pacientes" class="nav-link <?= isActive('reportes/pacientes') ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Por Pacientes</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- Administración -->
-                <?php if(hasPermission('admin.access')): ?>
-                <li class="nav-header">ADMINISTRACIÓN</li>
-
-                <li class="nav-item <?= hasActiveChild(['catalogos']) ? 'menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= isActive('catalogos') ?>">
-                        <i class="nav-icon fas fa-list"></i>
+                
+                <!-- Separador -->
+                <li class="nav-header">CATÁLOGOS</li>
+                
+                <!-- Catálogos (Menú desplegable) -->
+                <li class="nav-item <?= isMenuOpen(['/catalogos'], $currentPath) ?>">
+                    <a href="#" class="nav-link <?= isActive('/catalogos', $currentPath) ?>">
+                        <i class="nav-icon fas fa-folder-open"></i>
                         <p>
                             Catálogos
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        
+                        <!-- Estudios -->
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/catalogos/estudios" class="nav-link <?= isActive('catalogos/estudios') ?>">
+                            <a href="<?= base_url('/catalogos/estudios') ?>" 
+                               class="nav-link <?= isActive('/catalogos/estudios', $currentPath) ?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Estudios</p>
                             </a>
                         </li>
+                        
+                        <!-- Perfiles/Paquetes -->
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/catalogos/precios" class="nav-link <?= isActive('catalogos/precios') ?>">
+                            <a href="<?= base_url('/catalogos/perfiles') ?>" 
+                               class="nav-link <?= isActive('/catalogos/perfiles', $currentPath) ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Listas de Precios</p>
+                                <p>
+                                    Perfiles/Paquetes
+                                    <span class="badge badge-warning right">Pronto</span>
+                                </p>
                             </a>
                         </li>
+                        
+                        <!-- Áreas -->
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/catalogos/areas" class="nav-link <?= isActive('catalogos/areas') ?>">
+                            <a href="<?= base_url('/catalogos/areas') ?>" 
+                               class="nav-link <?= isActive('/catalogos/areas', $currentPath) ?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Áreas</p>
                             </a>
                         </li>
+                        
+                        <!-- Tipos de Muestra -->
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/catalogos/companias" class="nav-link <?= isActive('catalogos/companias') ?>">
+                            <a href="<?= base_url('/catalogos/tipos-muestra') ?>" 
+                               class="nav-link <?= isActive('/catalogos/tipos-muestra', $currentPath) ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Compañías</p>
+                                <p>
+                                    Tipos de Muestra
+                                    <span class="badge badge-warning right">Pronto</span>
+                                </p>
                             </a>
                         </li>
+                        
+                        <!-- Metodologías -->
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/catalogos/sucursales" class="nav-link <?= isActive('catalogos/sucursales') ?>">
+                            <a href="<?= base_url('/catalogos/metodologias') ?>" 
+                               class="nav-link <?= isActive('/catalogos/metodologias', $currentPath) ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Sucursales</p>
+                                <p>
+                                    Metodologías
+                                    <span class="badge badge-warning right">Pronto</span>
+                                </p>
                             </a>
                         </li>
+                        
+                        <!-- Departamentos -->
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/catalogos/laboratorios-referencia" class="nav-link">
+                            <a href="<?= base_url('/catalogos/departamentos') ?>" 
+                               class="nav-link <?= isActive('/catalogos/departamentos', $currentPath) ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Laboratorios de Referencia</p>
+                                <p>
+                                    Departamentos
+                                    <span class="badge badge-warning right">Pronto</span>
+                                </p>
                             </a>
                         </li>
+                        
+                        <!-- Labs de Referencia -->
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/catalogos/metodologias" class="nav-link">
+                            <a href="<?= base_url('/catalogos/laboratorios-referencia') ?>" 
+                               class="nav-link <?= isActive('/catalogos/laboratorios-referencia', $currentPath) ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Metodologías</p>
+                                <p>
+                                    Labs. Referencia
+                                    <span class="badge badge-warning right">Pronto</span>
+                                </p>
                             </a>
                         </li>
+                        
+                        <!-- Indicaciones -->
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/catalogos/tipos-muestra" class="nav-link">
+                            <a href="<?= base_url('/catalogos/indicaciones') ?>" 
+                               class="nav-link <?= isActive('/catalogos/indicaciones', $currentPath) ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Tipos de Muestra</p>
+                                <p>
+                                    Indicaciones
+                                    <span class="badge badge-warning right">Pronto</span>
+                                </p>
                             </a>
                         </li>
+                        
+                        <!-- Etiquetas -->
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/catalogos/etiquetas" class="nav-link">
+                            <a href="<?= base_url('/catalogos/etiquetas') ?>" 
+                               class="nav-link <?= isActive('/catalogos/etiquetas', $currentPath) ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Etiquetas</p>
+                                <p>
+                                    Etiquetas
+                                    <span class="badge badge-warning right">Pronto</span>
+                                </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/catalogos/indicaciones" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Indicaciones</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= BASE_URL ?>/catalogos/departamentos" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Departamentos</p>
-                            </a>
-                        </li>
+                        
                     </ul>
                 </li>
+                
+                <!-- Separador -->
+                <li class="nav-header">ADMINISTRACIÓN</li>
+                
+                <!-- Usuarios -->
                 <li class="nav-item">
-                    <a href="<?= BASE_URL ?>/usuarios" class="nav-link <?= isActive('usuarios') ?>">
-                        <i class="nav-icon fas fa-user-shield"></i>
-                        <p>Usuarios</p>
+                    <a href="<?= base_url('/usuarios') ?>" 
+                       class="nav-link <?= isActive('/usuarios', $currentPath) ?>">
+                        <i class="nav-icon fas fa-user-cog"></i>
+                        <p>
+                            Usuarios
+                            <span class="badge badge-info right">Pronto</span>
+                        </p>
                     </a>
                 </li>
-
+                
+                <!-- Reportes -->
                 <li class="nav-item">
-                    <a href="<?= BASE_URL ?>/roles" class="nav-link <?= isActive('roles') ?>">
-                        <i class="nav-icon fas fa-user-tag"></i>
-                        <p>Roles y Permisos</p>
+                    <a href="<?= base_url('/reportes') ?>" 
+                       class="nav-link <?= isActive('/reportes', $currentPath) ?>">
+                        <i class="nav-icon fas fa-chart-bar"></i>
+                        <p>
+                            Reportes
+                            <span class="badge badge-info right">Pronto</span>
+                        </p>
                     </a>
                 </li>
-
+                
+                <!-- Configuración -->
                 <li class="nav-item">
-                    <a href="<?= BASE_URL ?>/auditoria" class="nav-link <?= isActive('auditoria') ?>">
-                        <i class="nav-icon fas fa-history"></i>
-                        <p>Auditoría</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="<?= BASE_URL ?>/configuracion" class="nav-link <?= isActive('configuracion') ?>">
+                    <a href="<?= base_url('/configuracion') ?>" 
+                       class="nav-link <?= isActive('/configuracion', $currentPath) ?>">
                         <i class="nav-icon fas fa-cog"></i>
-                        <p>Configuración</p>
+                        <p>
+                            Configuración
+                            <span class="badge badge-info right">Pronto</span>
+                        </p>
                     </a>
                 </li>
-                <?php endif; ?>
-
+                
+                <!-- Separador -->
+                <li class="nav-header">SESIÓN</li>
+                
+                <!-- Cerrar Sesión -->
+                <li class="nav-item">
+                    <a href="<?= base_url('/logout') ?>" class="nav-link">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>Cerrar Sesión</p>
+                    </a>
+                </li>
+                
             </ul>
         </nav>
-        <!-- /.sidebar-menu -->
+        
     </div>
-    <!-- /.sidebar -->
+    
 </aside>
+
+<style>
+/* Estilos adicionales para el sidebar */
+.brand-link {
+    display: flex;
+    align-items: center;
+    padding: 0.8125rem 0.5rem;
+}
+
+.brand-link .fas.fa-flask {
+    font-size: 2rem;
+    margin-right: 0.5rem;
+}
+
+.user-panel .image {
+    display: flex;
+    align-items: center;
+}
+
+.nav-header {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+}
+
+.nav-treeview > .nav-item > .nav-link {
+    padding-left: 2.5rem;
+}
+
+.badge {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.4rem;
+}
+</style>
