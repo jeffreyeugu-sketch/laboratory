@@ -1,7 +1,6 @@
 <?php
 /**
  * Vista: Editar Área
- * Formulario para modificar datos de un área existente
  */
 
 $area = $data['area'] ?? null;
@@ -16,188 +15,179 @@ $descripcion = $old['descripcion'] ?? $area['descripcion'] ?? '';
 $activo = isset($old['activo']) ? $old['activo'] : ($area['activo'] ?? 1);
 ?>
 
-<!-- Content Header -->
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0"><?= $data['titulo'] ?? 'Editar Área' ?></h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <?php if (isset($data['breadcrumb'])): ?>
-                        <?php foreach ($data['breadcrumb'] as $item): ?>
-                            <li class="breadcrumb-item">
-                                <?php if (!empty($item['url'])): ?>
-                                    <a href="<?= $item['url'] ?>"><?= $item['nombre'] ?></a>
-                                <?php else: ?>
-                                    <?= $item['nombre'] ?>
-                                <?php endif; ?>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<!-- Main content -->
-<section class="content">
-    <div class="container-fluid">
-        
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                
-                <!-- Card del formulario -->
-                <div class="card card-warning">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-edit mr-2"></i>
-                            Editar Área
-                        </h3>
-                    </div>
-                    
-                    <form action="/catalogos/areas/actualizar/<?= $area['id'] ?>" method="POST" id="formArea">
-                        <div class="card-body">
-                            
-                            <!-- ID (oculto pero visible para referencia) -->
-                            <div class="alert alert-info">
-                                <i class="fas fa-info-circle mr-2"></i>
-                                <strong>ID del Área:</strong> <?= $area['id'] ?>
-                            </div>
-                            
-                            <!-- Código -->
-                            <div class="form-group">
-                                <label for="codigo">
-                                    Código <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" 
-                                       class="form-control <?= isset($errores['codigo']) ? 'is-invalid' : '' ?>" 
-                                       id="codigo" 
-                                       name="codigo" 
-                                       value="<?= htmlspecialchars($codigo) ?>"
-                                       maxlength="20"
-                                       required
-                                       placeholder="Ej: QC, HEM, MICRO">
-                                <small class="form-text text-muted">
-                                    Código único del área (máximo 20 caracteres)
-                                </small>
-                                <?php if (isset($errores['codigo'])): ?>
-                                    <div class="invalid-feedback d-block">
-                                        <?= $errores['codigo'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                            
-                            <!-- Nombre -->
-                            <div class="form-group">
-                                <label for="nombre">
-                                    Nombre <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" 
-                                       class="form-control <?= isset($errores['nombre']) ? 'is-invalid' : '' ?>" 
-                                       id="nombre" 
-                                       name="nombre" 
-                                       value="<?= htmlspecialchars($nombre) ?>"
-                                       maxlength="100"
-                                       required
-                                       placeholder="Ej: Química Clínica">
-                                <small class="form-text text-muted">
-                                    Nombre del área (máximo 100 caracteres)
-                                </small>
-                                <?php if (isset($errores['nombre'])): ?>
-                                    <div class="invalid-feedback d-block">
-                                        <?= $errores['nombre'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                            
-                            <!-- Descripción -->
-                            <div class="form-group">
-                                <label for="descripcion">Descripción</label>
-                                <textarea class="form-control <?= isset($errores['descripcion']) ? 'is-invalid' : '' ?>" 
-                                          id="descripcion" 
-                                          name="descripcion" 
-                                          rows="3"
-                                          maxlength="500"
-                                          placeholder="Descripción del área..."><?= htmlspecialchars($descripcion) ?></textarea>
-                                <small class="form-text text-muted">
-                                    Descripción opcional del área (máximo 500 caracteres)
-                                </small>
-                                <?php if (isset($errores['descripcion'])): ?>
-                                    <div class="invalid-feedback d-block">
-                                        <?= $errores['descripcion'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                            
-                            <!-- Estado -->
-                            <div class="form-group">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" 
-                                           class="custom-control-input" 
-                                           id="activo" 
-                                           name="activo"
-                                           <?= $activo ? 'checked' : '' ?>>
-                                    <label class="custom-control-label" for="activo">
-                                        Área activa
-                                    </label>
-                                </div>
-                                <small class="form-text text-muted">
-                                    Las áreas inactivas no aparecerán en los catálogos
-                                </small>
-                            </div>
-                            
-                            <!-- Información de auditoría -->
-                            <?php if (isset($area['created_at'])): ?>
-                                <div class="row mt-4">
-                                    <div class="col-md-6">
-                                        <small class="text-muted">
-                                            <i class="far fa-calendar-plus mr-1"></i>
-                                            <strong>Creado:</strong> <?= date('d/m/Y H:i', strtotime($area['created_at'])) ?>
-                                        </small>
-                                    </div>
-                                    <?php if (isset($area['updated_at'])): ?>
-                                        <div class="col-md-6">
-                                            <small class="text-muted">
-                                                <i class="far fa-calendar-check mr-1"></i>
-                                                <strong>Modificado:</strong> <?= date('d/m/Y H:i', strtotime($area['updated_at'])) ?>
-                                            </small>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                            <?php endif; ?>
-                            
-                        </div>
-                        
-                        <div class="card-footer">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <a href="/catalogos/areas" class="btn btn-secondary">
-                                        <i class="fas fa-arrow-left mr-1"></i>
-                                        Cancelar
-                                    </a>
-                                </div>
-                                <div class="col-md-6 text-right">
-                                    <button type="submit" class="btn btn-warning">
-                                        <i class="fas fa-save mr-1"></i>
-                                        Actualizar Área
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Contenido Principal -->
+<div class="container-fluid py-4">
+    
+    <!-- Encabezado -->
+    <div class="mb-4">
+        <h2 class="mb-1">Editar Área</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="<?= url('/dashboard') ?>">Inicio</a></li>
+                <li class="breadcrumb-item">Catálogos</li>
+                <li class="breadcrumb-item"><a href="<?= url('/catalogos/areas') ?>">Áreas</a></li>
+                <li class="breadcrumb-item active">Editar</li>
+            </ol>
+        </nav>
+    </div>
+    
+    <!-- Formulario -->
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-edit me-2"></i>
+                        Editar Área
+                    </h5>
                 </div>
                 
+                <form action="<?= url('/catalogos/areas/actualizar/' . $area['id']) ?>" method="POST" id="formArea">
+                    <div class="card-body">
+                        
+                        <!-- ID (oculto pero visible para referencia) -->
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>ID del Área:</strong> <?= $area['id'] ?>
+                        </div>
+                        
+                        <!-- Código -->
+                        <div class="mb-3">
+                            <label for="codigo" class="form-label">
+                                Código <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" 
+                                   class="form-control <?= isset($errores['codigo']) ? 'is-invalid' : '' ?>" 
+                                   id="codigo" 
+                                   name="codigo" 
+                                   value="<?= htmlspecialchars($codigo) ?>"
+                                   maxlength="20"
+                                   required
+                                   placeholder="Ej: QC, HEM, MICRO">
+                            <small class="form-text text-muted">
+                                Código único del área (máximo 20 caracteres)
+                            </small>
+                            <?php if (isset($errores['codigo'])): ?>
+                                <div class="invalid-feedback d-block">
+                                    <?= $errores['codigo'] ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Nombre -->
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">
+                                Nombre <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" 
+                                   class="form-control <?= isset($errores['nombre']) ? 'is-invalid' : '' ?>" 
+                                   id="nombre" 
+                                   name="nombre" 
+                                   value="<?= htmlspecialchars($nombre) ?>"
+                                   maxlength="100"
+                                   required
+                                   placeholder="Ej: Química Clínica">
+                            <small class="form-text text-muted">
+                                Nombre del área (máximo 100 caracteres)
+                            </small>
+                            <?php if (isset($errores['nombre'])): ?>
+                                <div class="invalid-feedback d-block">
+                                    <?= $errores['nombre'] ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Descripción -->
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control <?= isset($errores['descripcion']) ? 'is-invalid' : '' ?>" 
+                                      id="descripcion" 
+                                      name="descripcion" 
+                                      rows="3"
+                                      maxlength="500"
+                                      placeholder="Descripción del área..."><?= htmlspecialchars($descripcion) ?></textarea>
+                            <small class="form-text text-muted">
+                                Descripción opcional del área (máximo 500 caracteres)
+                            </small>
+                            <?php if (isset($errores['descripcion'])): ?>
+                                <div class="invalid-feedback d-block">
+                                    <?= $errores['descripcion'] ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Estado -->
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" 
+                                       class="form-check-input" 
+                                       id="activo" 
+                                       name="activo"
+                                       <?= $activo ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="activo">
+                                    Área activa
+                                </label>
+                            </div>
+                            <small class="form-text text-muted">
+                                Las áreas inactivas no aparecerán en los catálogos
+                            </small>
+                        </div>
+                        
+                        <!-- Información de auditoría -->
+                        <?php if (isset($area['created_at'])): ?>
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <small class="text-muted">
+                                        <i class="far fa-calendar-plus me-1"></i>
+                                        <strong>Creado:</strong> <?= formatDate($area['created_at'], 'd/m/Y H:i') ?>
+                                    </small>
+                                </div>
+                                <?php if (isset($area['updated_at'])): ?>
+                                    <div class="col-md-6">
+                                        <small class="text-muted">
+                                            <i class="far fa-calendar-check me-1"></i>
+                                            <strong>Modificado:</strong> <?= formatDate($area['updated_at'], 'd/m/Y H:i') ?>
+                                        </small>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                        
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="<?= url('/catalogos/areas') ?>" class="btn btn-secondary" id="btnCancelar">
+                                    <i class="fas fa-arrow-left me-1"></i>
+                                    Cancelar
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <button type="submit" class="btn btn-warning">
+                                    <i class="fas fa-save me-1"></i>
+                                    Actualizar Área
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                
             </div>
+            
         </div>
-        
     </div>
-</section>
+    
+</div>
 
-<!-- Scripts específicos -->
+<!-- Scripts -->
 <script>
 $(document).ready(function() {
     
@@ -212,10 +202,6 @@ $(document).ready(function() {
             errores.push('El código es requerido');
             $('#codigo').addClass('is-invalid');
             valido = false;
-        } else if (codigo.length > 20) {
-            errores.push('El código no puede tener más de 20 caracteres');
-            $('#codigo').addClass('is-invalid');
-            valido = false;
         } else {
             $('#codigo').removeClass('is-invalid');
         }
@@ -226,22 +212,8 @@ $(document).ready(function() {
             errores.push('El nombre es requerido');
             $('#nombre').addClass('is-invalid');
             valido = false;
-        } else if (nombre.length > 100) {
-            errores.push('El nombre no puede tener más de 100 caracteres');
-            $('#nombre').addClass('is-invalid');
-            valido = false;
         } else {
             $('#nombre').removeClass('is-invalid');
-        }
-        
-        // Validar descripción
-        const descripcion = $('#descripcion').val().trim();
-        if (descripcion.length > 500) {
-            errores.push('La descripción no puede tener más de 500 caracteres');
-            $('#descripcion').addClass('is-invalid');
-            valido = false;
-        } else {
-            $('#descripcion').removeClass('is-invalid');
         }
         
         // Si hay errores, mostrarlos
@@ -265,14 +237,14 @@ $(document).ready(function() {
         $(this).val($(this).val().toUpperCase());
     });
     
-    // Confirmación de cambios
+    // Confirmación de cambios sin guardar
     let formModificado = false;
     
     $('#formArea :input').on('change', function() {
         formModificado = true;
     });
     
-    $('a[href="/catalogos/areas"]').on('click', function(e) {
+    $('#btnCancelar').on('click', function(e) {
         if (formModificado) {
             e.preventDefault();
             Swal.fire({
@@ -286,31 +258,10 @@ $(document).ready(function() {
                 cancelButtonText: 'Seguir editando'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = '/catalogos/areas';
+                    window.location.href = '<?= url('/catalogos/areas') ?>';
                 }
             });
         }
     });
 });
 </script>
-
-<style>
-.text-danger {
-    color: #dc3545;
-}
-
-.form-control.is-invalid {
-    border-color: #dc3545;
-}
-
-.invalid-feedback {
-    color: #dc3545;
-    font-size: 0.875rem;
-}
-
-.alert-info {
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
-    color: #0c5460;
-}
-</style>

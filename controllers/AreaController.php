@@ -2,8 +2,6 @@
 /**
  * AreaController.php
  * Controlador para gestión de áreas del laboratorio
- * 
- * Maneja CRUD completo de áreas (Química Clínica, Hematología, etc.)
  */
 
 require_once __DIR__ . '/../core/Controller.php';
@@ -26,8 +24,7 @@ class AreaController extends Controller
     private function verificarAuth()
     {
         if (!Auth::check()) {
-            header('Location: ' . base_url('/login'));
-            exit;
+            redirect('/login');
         }
     }
     
@@ -39,7 +36,7 @@ class AreaController extends Controller
         $this->verificarAuth();
         
         $data = [
-            'title' => 'Áreas del Laboratorio',
+            'title' => 'Áreas del Laboratorio'
         ];
         
         $this->view('catalogos/areas/index', $data);
@@ -339,15 +336,13 @@ class AreaController extends Controller
      */
     private function generarBotonesAccion($area)
     {
-        $baseUrl = base_url();
-        
         // Escapar el nombre para uso en atributos HTML
         $nombreEscapado = htmlspecialchars($area['nombre'], ENT_QUOTES, 'UTF-8');
         
         $html = '<div class="btn-group btn-group-sm" role="group">';
         
         // Botón editar
-        $html .= '<a href="' . $baseUrl . '/catalogos/areas/editar/' . $area['id'] . '" ';
+        $html .= '<a href="' . url('/catalogos/areas/editar/' . $area['id']) . '" ';
         $html .= 'class="btn btn-warning btn-sm" ';
         $html .= 'title="Editar">';
         $html .= '<i class="fas fa-edit"></i>';

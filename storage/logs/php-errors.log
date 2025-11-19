@@ -779,3 +779,15 @@ Stack trace:
 #1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('AreaController', 'editar', Array)
 #2 {main}
   thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 119
+[18-Nov-2025 20:10:06 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:116
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(275): AreaController->editar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(308): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 116
+[18-Nov-2025 20:10:30 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::crear() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:91
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(277): AreaController->guardar()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(294): executeRoute('AreaController', 'guardar')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 91
