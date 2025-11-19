@@ -1023,3 +1023,67 @@ Stack trace:
 #3 {main}
   thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
 [19-Nov-2025 00:43:03 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[19-Nov-2025 11:04:54 America/Mexico_City] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tabla' in 'INSERT INTO'
+[19-Nov-2025 11:04:54 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[19-Nov-2025 11:21:53 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[19-Nov-2025 11:29:56 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::fetch_assoc() in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php:46
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\MetodologiaController.php(298): Metodologia->listar(0, 25, '', 'orden', 'ASC')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): MetodologiaController->listar()
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('MetodologiaCont...', 'listar')
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php on line 46
+[19-Nov-2025 11:36:22 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::fetch_assoc() in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php:46
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\MetodologiaController.php(298): Metodologia->listar(0, 25, '', 'orden', 'ASC')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): MetodologiaController->listar()
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('MetodologiaCont...', 'listar')
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php on line 46
+[19-Nov-2025 11:36:32 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::fetch_assoc() in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php:46
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\MetodologiaController.php(298): Metodologia->listar(0, 25, '', 'orden', 'ASC')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): MetodologiaController->listar()
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('MetodologiaCont...', 'listar')
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php on line 46
+[19-Nov-2025 11:39:53 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::fetch_assoc() in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php:46
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\MetodologiaController.php(298): Metodologia->listar(0, 25, '', 'orden', 'ASC')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): MetodologiaController->listar()
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('MetodologiaCont...', 'listar')
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php on line 46
+[19-Nov-2025 11:40:39 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::fetch_assoc() in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php:46
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\MetodologiaController.php(298): Metodologia->listar(0, 25, '', 'orden', 'ASC')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): MetodologiaController->listar()
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('MetodologiaCont...', 'listar')
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php on line 46
+[19-Nov-2025 11:40:39 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::fetch_assoc() in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php:46
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\MetodologiaController.php(298): Metodologia->listar(0, 25, '', 'orden', 'ASC')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): MetodologiaController->listar()
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('MetodologiaCont...', 'listar')
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php on line 46
+[19-Nov-2025 11:40:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::fetch_assoc() in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php:46
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\MetodologiaController.php(298): Metodologia->listar(0, 25, '', 'orden', 'ASC')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): MetodologiaController->listar()
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('MetodologiaCont...', 'listar')
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php on line 46
+[19-Nov-2025 11:40:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::fetch_assoc() in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php:46
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\MetodologiaController.php(298): Metodologia->listar(0, 25, '', 'orden', 'ASC')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): MetodologiaController->listar()
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('MetodologiaCont...', 'listar')
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php on line 46
+[19-Nov-2025 11:43:14 America/Mexico_City] PHP Parse error:  syntax error, unexpected token "`" in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\metodologias\index.php on line 278
+[19-Nov-2025 11:43:50 America/Mexico_City] PHP Fatal error:  Cannot declare class Metodologia, because the name is already in use in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\metodologias\index.php on line 10
+[19-Nov-2025 11:44:20 America/Mexico_City] PHP Fatal error:  Cannot declare class Metodologia, because the name is already in use in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\metodologias\index.php on line 10
+[19-Nov-2025 11:48:46 America/Mexico_City] PHP Parse error:  syntax error, unexpected token "`" in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php on line 278
+[19-Nov-2025 12:00:55 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
