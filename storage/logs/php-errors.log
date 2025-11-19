@@ -803,3 +803,223 @@ Stack trace:
 #1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('AreaController', 'guardar')
 #2 {main}
   thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 97
+[18-Nov-2025 20:55:08 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 20:55:12 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 20:55:17 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:124
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): AreaController->editar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 124
+[18-Nov-2025 20:55:55 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:124
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): AreaController->editar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 124
+[18-Nov-2025 21:08:33 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 21:08:37 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:124
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): AreaController->editar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 124
+[18-Nov-2025 21:14:43 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 21:14:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\EstudioController.php(268): Controller->view('catalogos/estud...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): EstudioController->ver('1')
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('EstudioControll...', 'ver', Array)
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 21:18:00 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method OrdenController::requireAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php:58
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): OrdenController->crear()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('OrdenController', 'crear')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php on line 58
+[18-Nov-2025 21:18:01 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method OrdenController::requireAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php:29
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): OrdenController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('OrdenController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php on line 29
+[18-Nov-2025 21:18:05 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 23:47:42 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[18-Nov-2025 23:47:52 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method Area::obtenerPorId() in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php:124
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): AreaController->editar('6')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('AreaController', 'editar', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\AreaController.php on line 124
+[18-Nov-2025 23:58:59 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 23:58:59 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\EstudioController.php(268): Controller->view('catalogos/estud...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): EstudioController->ver('1')
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('EstudioControll...', 'ver', Array)
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 23:59:52 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/editar.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 23:59:52 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/editar.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\EstudioController.php(159): Controller->view('catalogos/estud...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): EstudioController->editar('1')
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('EstudioControll...', 'editar', Array)
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 23:59:57 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 23:59:57 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\EstudioController.php(268): Controller->view('catalogos/estud...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): EstudioController->ver('1')
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('EstudioControll...', 'ver', Array)
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 23:59:59 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/editar.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[18-Nov-2025 23:59:59 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/editar.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\EstudioController.php(159): Controller->view('catalogos/estud...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): EstudioController->editar('1')
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('EstudioControll...', 'editar', Array)
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[19-Nov-2025 00:00:16 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[19-Nov-2025 00:00:16 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/ver.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\EstudioController.php(268): Controller->view('catalogos/estud...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): EstudioController->ver('1')
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('EstudioControll...', 'ver', Array)
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[19-Nov-2025 00:00:33 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/editar.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[19-Nov-2025 00:00:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/estudios/editar.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\EstudioController.php(159): Controller->view('catalogos/estud...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): EstudioController->editar('1')
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('EstudioControll...', 'editar', Array)
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[19-Nov-2025 00:05:39 America/Mexico_City] PHP Warning:  Undefined array key "created_at" in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\estudios\ver.php on line 162
+[19-Nov-2025 00:05:39 America/Mexico_City] PHP Deprecated:  strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\estudios\ver.php on line 162
+[19-Nov-2025 00:05:39 America/Mexico_City] PHP Warning:  Undefined array key "updated_at" in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\estudios\ver.php on line 166
+[19-Nov-2025 00:05:39 America/Mexico_City] PHP Deprecated:  strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\estudios\ver.php on line 166
+[19-Nov-2025 00:13:20 America/Mexico_City] PHP Parse error:  syntax error, unexpected end of file in C:\xampp\htdocs\laboratorio-clinico\models\TipoMuestra.php on line 143
+[19-Nov-2025 00:13:33 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[19-Nov-2025 00:13:36 America/Mexico_City] PHP Parse error:  syntax error, unexpected end of file in C:\xampp\htdocs\laboratorio-clinico\models\TipoMuestra.php on line 143
+[19-Nov-2025 00:14:16 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:18 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:28 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/tipos-muestra/crear.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[19-Nov-2025 00:14:28 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/tipos-muestra/crear.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php(61): Controller->view('catalogos/tipos...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): TipoMuestraController->crear()
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('TipoMuestraCont...', 'crear')
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:14:32 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:20:41 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "color_tubo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 290
+[19-Nov-2025 00:26:52 America/Mexico_City] PHP Warning:  Undefined array key "volumen_minimo" in C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php on line 294
+[19-Nov-2025 00:35:37 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[19-Nov-2025 00:35:38 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[19-Nov-2025 00:36:09 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/tipos-muestra/editar.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[19-Nov-2025 00:36:09 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/tipos-muestra/editar.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php(143): Controller->view('catalogos/tipos...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): TipoMuestraController->editar('1')
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('TipoMuestraCont...', 'editar', Array)
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[19-Nov-2025 00:36:11 America/Mexico_City] PHP Warning:  require(C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/tipos-muestra/crear.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[19-Nov-2025 00:36:11 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\laboratorio-clinico\core/../views/catalogos/tipos-muestra/crear.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php:31
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\controllers\TipoMuestraController.php(61): Controller->view('catalogos/tipos...', Array)
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): TipoMuestraController->crear()
+#2 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('TipoMuestraCont...', 'crear')
+#3 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\core\Controller.php on line 31
+[19-Nov-2025 00:43:03 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255

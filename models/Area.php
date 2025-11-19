@@ -16,47 +16,37 @@ class Area extends Model
     /**
      * Listar áreas con filtros y paginación
      */
-    public function listar($filtros = [])
+    public function listar($start = 0, $length = 25, $search = '', $orderBy = 'id', $orderDir = 'DESC')
     {
         $sql = "SELECT * FROM {$this->table} WHERE 1=1";
         $params = [];
         
         // Filtro de búsqueda
-        if (!empty($filtros['search'])) {
+        if (!empty($search)) {
             $sql .= " AND (codigo LIKE ? OR nombre LIKE ? OR descripcion LIKE ?)";
-            $searchTerm = '%' . $filtros['search'] . '%';
+            $searchTerm = '%' . $search . '%';
             $params[] = $searchTerm;
             $params[] = $searchTerm;
             $params[] = $searchTerm;
-        }
-        
-        // Filtro de activo/inactivo
-        if (isset($filtros['activo'])) {
-            $sql .= " AND activo = ?";
-            $params[] = $filtros['activo'];
         }
         
         // Ordenamiento
-        $orderBy = $filtros['order_by'] ?? 'codigo';
-        $orderDir = strtoupper($filtros['order_dir'] ?? 'ASC');
+        $validColumns = ['id', 'codigo', 'nombre', 'descripcion', 'activo'];
+        if (!in_array($orderBy, $validColumns)) {
+            $orderBy = 'id';
+        }
         
-        // Validar dirección de ordenamiento
+        $orderDir = strtoupper($orderDir);
         if (!in_array($orderDir, ['ASC', 'DESC'])) {
-            $orderDir = 'ASC';
+            $orderDir = 'DESC';
         }
         
         $sql .= " ORDER BY {$orderBy} {$orderDir}";
         
         // Paginación
-        if (isset($filtros['limit'])) {
-            $sql .= " LIMIT ?";
-            $params[] = (int)$filtros['limit'];
-            
-            if (isset($filtros['offset'])) {
-                $sql .= " OFFSET ?";
-                $params[] = (int)$filtros['offset'];
-            }
-        }
+        $sql .= " LIMIT ? OFFSET ?";
+        $params[] = (int)$length;
+        $params[] = (int)$start;
         
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
@@ -67,24 +57,18 @@ class Area extends Model
     /**
      * Contar total de registros filtrados
      */
-    public function contarFiltrados($filtros = [])
+    public function contarFiltrados($search = '')
     {
         $sql = "SELECT COUNT(*) as total FROM {$this->table} WHERE 1=1";
         $params = [];
         
         // Filtro de búsqueda
-        if (!empty($filtros['search'])) {
+        if (!empty($search)) {
             $sql .= " AND (codigo LIKE ? OR nombre LIKE ? OR descripcion LIKE ?)";
-            $searchTerm = '%' . $filtros['search'] . '%';
+            $searchTerm = '%' . $search . '%';
             $params[] = $searchTerm;
             $params[] = $searchTerm;
             $params[] = $searchTerm;
-        }
-        
-        // Filtro de activo/inactivo
-        if (isset($filtros['activo'])) {
-            $sql .= " AND activo = ?";
-            $params[] = $filtros['activo'];
         }
         
         $stmt = $this->db->prepare($sql);
@@ -144,7 +128,9 @@ class Area extends Model
      */
     public function obtenerActivas()
     {
-        return $this->listar(['activo' => 1, 'order_by' => 'nombre', 'order_dir' => 'ASC']);
+        $sql = "SELECT * FROM {$this->table} WHERE activo = 1 ORDER BY nombre ASC";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     /**
@@ -171,7 +157,8 @@ class Area extends Model
                     SUM(CASE WHEN e.activo = 0 THEN 1 ELSE 0 END) as estudios_inactivos
                 FROM estudios e
                 LEFT JOIN orden_estudios oe ON e.id = oe.estudio_id
-                WHERE e.area_id = ?";
+                WHERE e.area_id = ?
+                GROUP BY e.area_id";
         
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$areaId]);

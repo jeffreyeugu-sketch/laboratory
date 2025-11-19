@@ -15,15 +15,19 @@ abstract class Model {
         $this->db = Database::getInstance()->getConnection();
     }
     
+    // ========================================
+    // MÉTODOS EN ESPAÑOL (PRINCIPALES)
+    // ========================================
+    
     /**
      * Obtener todos los registros
      * 
      * @return array
      */
-    public function findAll() {
+    public function obtenerTodos() {
         $stmt = $this->db->prepare("SELECT * FROM {$this->table}");
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     /**
@@ -32,10 +36,10 @@ abstract class Model {
      * @param int $id
      * @return array|false
      */
-    public function findById($id) {
+    public function obtenerPorId($id) {
         $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE {$this->primaryKey} = ?");
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
     /**
@@ -45,7 +49,7 @@ abstract class Model {
      * @param string $operator 'AND' o 'OR'
      * @return array
      */
-    public function findWhere($conditions, $operator = 'AND') {
+    public function obtenerDonde($conditions, $operator = 'AND') {
         $where = [];
         $params = [];
         
@@ -59,7 +63,7 @@ abstract class Model {
         
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     /**
@@ -68,7 +72,7 @@ abstract class Model {
      * @param array $data
      * @return int ID del registro creado
      */
-    public function create($data) {
+    public function crear($data) {
         $fields = array_keys($data);
         $placeholders = array_fill(0, count($fields), '?');
         
@@ -88,7 +92,7 @@ abstract class Model {
      * @param array $data
      * @return bool
      */
-    public function update($id, $data) {
+    public function actualizar($id, $data) {
         $fields = array_keys($data);
         $setClause = implode(' = ?, ', $fields) . ' = ?';
         
@@ -107,22 +111,9 @@ abstract class Model {
      * @param int $id
      * @return bool
      */
-    public function delete($id) {
+    public function eliminar($id) {
         $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE {$this->primaryKey} = ?");
         return $stmt->execute([$id]);
-    }
-    
-    /**
-     * Ejecutar una consulta SQL personalizada
-     * 
-     * @param string $sql
-     * @param array $params
-     * @return PDOStatement
-     */
-    protected function query($sql, $params = []) {
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute($params);
-        return $stmt;
     }
     
     /**
@@ -131,7 +122,7 @@ abstract class Model {
      * @param array $conditions
      * @return int
      */
-    public function count($conditions = []) {
+    public function contar($conditions = []) {
         if (empty($conditions)) {
             $sql = "SELECT COUNT(*) as total FROM {$this->table}";
             $params = [];
@@ -149,7 +140,7 @@ abstract class Model {
         }
         
         $stmt = $this->query($sql, $params);
-        $result = $stmt->fetch();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return (int)$result['total'];
     }
     
@@ -159,10 +150,83 @@ abstract class Model {
      * @param int $id
      * @return bool
      */
-    public function exists($id) {
+    public function existe($id) {
         $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM {$this->table} WHERE {$this->primaryKey} = ?");
         $stmt->execute([$id]);
-        $result = $stmt->fetch();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total'] > 0;
+    }
+    
+    /**
+     * Ejecutar una consulta SQL personalizada
+     * 
+     * @param string $sql
+     * @param array $params
+     * @return PDOStatement
+     */
+    protected function query($sql, $params = []) {
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt;
+    }
+    
+    // ========================================
+    // MÉTODOS EN INGLÉS (ALIAS PARA COMPATIBILIDAD)
+    // ========================================
+    
+    /**
+     * @deprecated Usar obtenerTodos() en su lugar
+     */
+    public function findAll() {
+        return $this->obtenerTodos();
+    }
+    
+    /**
+     * @deprecated Usar obtenerPorId() en su lugar
+     */
+    public function findById($id) {
+        return $this->obtenerPorId($id);
+    }
+    
+    /**
+     * @deprecated Usar obtenerDonde() en su lugar
+     */
+    public function findWhere($conditions, $operator = 'AND') {
+        return $this->obtenerDonde($conditions, $operator);
+    }
+    
+    /**
+     * @deprecated Usar crear() en su lugar
+     */
+    public function create($data) {
+        return $this->crear($data);
+    }
+    
+    /**
+     * @deprecated Usar actualizar() en su lugar
+     */
+    public function update($id, $data) {
+        return $this->actualizar($id, $data);
+    }
+    
+    /**
+     * @deprecated Usar eliminar() en su lugar
+     */
+    public function delete($id) {
+        return $this->eliminar($id);
+    }
+    
+    /**
+     * @deprecated Usar contar() en su lugar
+     */
+    public function count($conditions = []) {
+        return $this->contar($conditions);
+    }
+    
+    /**
+     * @deprecated Usar existe() en su lugar
+     */
+    public function exists($id) {
+        return $this->existe($id);
     }
 }
