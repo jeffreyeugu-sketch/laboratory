@@ -1087,3 +1087,38 @@ Stack trace:
 [19-Nov-2025 11:44:20 America/Mexico_City] PHP Fatal error:  Cannot declare class Metodologia, because the name is already in use in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\metodologias\index.php on line 10
 [19-Nov-2025 11:48:46 America/Mexico_City] PHP Parse error:  syntax error, unexpected token "`" in C:\xampp\htdocs\laboratorio-clinico\models\Metodologia.php on line 278
 [19-Nov-2025 12:00:55 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[25-Nov-2025 17:34:16 America/Mexico_City] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tabla' in 'INSERT INTO'
+[25-Nov-2025 17:34:16 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[25-Nov-2025 17:34:26 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method OrdenController::requireAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php:29
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): OrdenController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('OrdenController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php on line 29
+[25-Nov-2025 17:34:45 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method ResultadoController::requireAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\ResultadoController.php:29
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): ResultadoController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('ResultadoContro...', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\ResultadoController.php on line 29
+[25-Nov-2025 23:39:57 America/Mexico_City] Error al registrar auditoría: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tabla' in 'INSERT INTO'
+[25-Nov-2025 23:39:57 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[25-Nov-2025 23:40:14 America/Mexico_City] PHP Warning:  Undefined array key "created_at" in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\estudios\ver.php on line 162
+[25-Nov-2025 23:40:14 America/Mexico_City] PHP Deprecated:  strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\estudios\ver.php on line 162
+[25-Nov-2025 23:40:14 America/Mexico_City] PHP Warning:  Undefined array key "updated_at" in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\estudios\ver.php on line 166
+[25-Nov-2025 23:40:14 America/Mexico_City] PHP Deprecated:  strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\catalogos\estudios\ver.php on line 166
+[25-Nov-2025 23:58:02 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method LaboratorioReferencia::obtenerEstudiosAsignados() in C:\xampp\htdocs\laboratorio-clinico\controllers\LaboratorioReferenciaController.php:237
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(278): LaboratorioReferenciaController->ver('2')
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(311): executeRoute('LaboratorioRefe...', 'ver', Array)
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\LaboratorioReferenciaController.php on line 237
+[26-Nov-2025 00:22:44 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[26-Nov-2025 00:22:46 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255
+[26-Nov-2025 00:25:46 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined method OrdenController::requireAuth() in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php:29
+Stack trace:
+#0 C:\xampp\htdocs\laboratorio-clinico\public\index.php(280): OrdenController->index()
+#1 C:\xampp\htdocs\laboratorio-clinico\public\index.php(297): executeRoute('OrdenController', 'index')
+#2 {main}
+  thrown in C:\xampp\htdocs\laboratorio-clinico\controllers\OrdenController.php on line 29
+[26-Nov-2025 00:25:51 America/Mexico_City] PHP Deprecated:  Function strftime() is deprecated in C:\xampp\htdocs\laboratorio-clinico\views\dashboard\index.php on line 255

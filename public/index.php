@@ -222,7 +222,7 @@ $dynamicRoutes = [
     '/catalogos/laboratorios-referencia/actualizar/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'actualizar'],
     '/catalogos/laboratorios-referencia/eliminar/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'eliminar'],
     '/catalogos/laboratorios-referencia/cambiar-estado/' => ['controller' => 'LaboratorioReferenciaController', 'method' => 'cambiarEstado'],
-    
+
     // Metodologías con ID
     '/catalogos/metodologias/editar/' => ['controller' => 'MetodologiaController', 'method' => 'editar'],
     '/catalogos/metodologias/actualizar/' => ['controller' => 'MetodologiaController', 'method' => 'actualizar'],

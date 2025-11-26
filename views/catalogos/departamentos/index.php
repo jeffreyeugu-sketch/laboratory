@@ -1,6 +1,6 @@
 <?php
 /**
- * Vista: Listado de Laboratorios de Referencia
+ * Vista: Listado de Departamentos del Laboratorio
  */
 ?>
 
@@ -23,19 +23,19 @@
     <!-- Encabezado -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="mb-1">Laboratorios de Referencia</h2>
+            <h2 class="mb-1">Departamentos</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="<?= url('/dashboard') ?>">Inicio</a></li>
                     <li class="breadcrumb-item">Catálogos</li>
-                    <li class="breadcrumb-item active">Laboratorios de Referencia</li>
+                    <li class="breadcrumb-item active">Departamentos</li>
                 </ol>
             </nav>
         </div>
         <div>
-            <a href="<?= url('/catalogos/laboratorios-referencia/crear') ?>" class="btn btn-primary">
+            <a href="<?= url('/catalogos/departamentos/crear') ?>" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>
-                Nuevo Laboratorio
+                Nuevo Departamento
             </a>
         </div>
     </div>
@@ -55,22 +55,21 @@
     <div class="card shadow-sm">
         <div class="card-header bg-white">
             <h5 class="card-title mb-0">
-                <i class="fas fa-hospital me-2"></i>
-                Listado de Laboratorios de Referencia
+                <i class="fas fa-building me-2"></i>
+                Listado de Departamentos
             </h5>
         </div>
         <div class="card-body">
             
             <div class="table-responsive">
-                <table id="tablaLaboratorios" class="table table-bordered table-striped table-hover">
+                <table id="tablaDepartamentos" class="table table-bordered table-striped table-hover">
                     <thead class="table-light">
                         <tr>
                             <th width="8%">ID</th>
-                            <th width="10%">Código</th>
+                            <th width="15%">Área</th>
+                            <th width="12%">Código</th>
                             <th width="25%">Nombre</th>
-                            <th width="12%">Ciudad</th>
-                            <th width="12%">Teléfono</th>
-                            <th width="10%" class="text-center">Entrega</th>
+                            <th width="10%" class="text-center">Orden</th>
                             <th width="10%" class="text-center">Estado</th>
                             <th width="10%" class="text-center">Acciones</th>
                         </tr>
@@ -91,11 +90,11 @@
 $(document).ready(function() {
     
     // Inicializar DataTables
-    const tabla = $('#tablaLaboratorios').DataTable({
+    const tabla = $('#tablaDepartamentos').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
-            url: '<?= url('/catalogos/laboratorios-referencia/listar') ?>',
+            url: '<?= url('/catalogos/departamentos/listar') ?>',
             type: 'POST',
             error: function(xhr, error, code) {
                 console.error('Error al cargar datos:', error);
@@ -110,11 +109,10 @@ $(document).ready(function() {
         },
         columns: [
             { data: 'id' },
+            { data: 'area' },
             { data: 'codigo' },
             { data: 'nombre' },
-            { data: 'ciudad' },
-            { data: 'telefono' },
-            { data: 'dias_entrega', className: 'text-center' },
+            { data: 'orden', className: 'text-center' },
             { data: 'activo', className: 'text-center' },
             { data: 'acciones', className: 'text-center', orderable: false, searchable: false }
         ],
@@ -140,14 +138,14 @@ $(document).ready(function() {
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]]
     });
     
-    // Evento para eliminar laboratorio
-    $('#tablaLaboratorios').on('click', '.btn-eliminar', function() {
-        const laboratorioId = $(this).data('id');
-        const laboratorioNombre = $(this).data('nombre');
+    // Evento para eliminar departamento
+    $('#tablaDepartamentos').on('click', '.btn-eliminar', function() {
+        const departamentoId = $(this).data('id');
+        const departamentoNombre = $(this).data('nombre');
         
         Swal.fire({
             title: '¿Estás seguro?',
-            html: `Se eliminará el laboratorio:<br><strong>${laboratorioNombre}</strong>`,
+            html: `Se eliminará el departamento:<br><strong>${departamentoNombre}</strong>`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -169,7 +167,7 @@ $(document).ready(function() {
                 });
 
                 // Enviar petición de eliminación
-                fetch('<?= url('/catalogos/laboratorios-referencia/eliminar/') ?>' + laboratorioId, {
+                fetch('<?= url('/catalogos/departamentos/eliminar/') ?>' + departamentoId, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -199,7 +197,7 @@ $(document).ready(function() {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'No se pudo eliminar el laboratorio'
+                        text: 'No se pudo eliminar el departamento'
                     });
                 });
             }
